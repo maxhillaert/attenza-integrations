@@ -1,23 +1,24 @@
 # Codex
 
-Codex is a planned host for the same portable plugin. Do not copy `SKILL.md` or `mcp.json` into this folder.
+Codex consumes the same shared package through its native plugin manifest and repository marketplace. Do not copy `SKILL.md` into this folder.
 
 ## Portable package
 
-[`packages/attenza-plugin`](../../packages/attenza-plugin) is an [Agent Plugins 1.0](https://github.com/agentplugins/agent-plugins-spec) root: `plugin.json`, `mcp.json`, and `skills/attenza-intervention/SKILL.md`. Hosts that load that layout can point at this directory as-is.
+[`packages/attenza-plugin`](../../packages/attenza-plugin) remains an [Agent Plugins 1.0](https://github.com/agentplugins/agent-plugins-spec) root. Codex discovers the same package through the required [`.codex-plugin/plugin.json`](../../packages/attenza-plugin/.codex-plugin/plugin.json); that manifest exposes the canonical skill and the OAuth MCP endpoint using Codex's native fields.
 
-OpenAI's [plugin packaging docs](https://developers.openai.com/plugins/build/plugins) currently describe a Codex-specific overlay at `.codex-plugin/plugin.json`, with optional `.mcp.json`, `.app.json`, and a `hooks/` directory. This repository does **not** add those files yet:
+The public repository includes [`.agents/plugins/marketplace.json`](../../.agents/plugins/marketplace.json). Add the marketplace and install Attenza:
 
-- The portable root is the shared source of truth.
-- Add `.codex-plugin` later only if Codex cannot load Agent Plugins 1.0 from `plugin.json` at the package root, or if Codex-specific hooks become necessary.
-- Do not add hooks now, and do not fork the skill or MCP URL into a Codex tree.
-
-## Try the shared MCP endpoint
-
-Until a Codex overlay exists, register the public OAuth endpoint as a custom MCP server:
-
-```text
-https://staging.attenza.io/mcp
+```sh
+codex plugin marketplace add maxhillaert/attenza-integrations
+codex plugin add attenza@attenza-integrations
 ```
 
-Follow [`packages/attenza-plugin/skills/attenza-intervention/SKILL.md`](../../packages/attenza-plugin/skills/attenza-intervention/SKILL.md) for create, poll, expiry, and resume behavior. If a Codex run must end before the task is terminal, preserve `task.id` so a later or scheduled wake can poll that task instead of creating a duplicate.
+Restart the Codex app, open Plugins, select **Attenza integrations**, and enable **Attenza**. The first MCP use starts the browser OAuth flow; no API key or private capability URL is required.
+
+For development from a checkout, Codex also discovers the repo marketplace at `.agents/plugins/marketplace.json`. Run the repository gate after changing the native manifest:
+
+```sh
+mise run check
+```
+
+The canonical behavior remains [`skills/attenza-intervention/SKILL.md`](../../packages/attenza-plugin/skills/attenza-intervention/SKILL.md). If a run must end before the task is terminal, preserve `task.id` so a later or scheduled wake polls that task instead of creating a duplicate.

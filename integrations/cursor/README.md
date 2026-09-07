@@ -36,4 +36,4 @@ ln -sfn /path/to/attenza-integrations/packages/attenza-plugin ~/.cursor/plugins/
 
 Reload Cursor, then confirm Attenza appears under Customize with one MCP server and one skill.
 
-Cursor's [plugin reference](https://cursor.com/docs/reference/plugins) documents two marketplace layouts: a repository-root `plugin.json`, or a repo-root `.cursor-plugin/marketplace.json` that points at a subdirectory. This kit uses the subdirectory layout for local testing. A marketplace overlay is a follow-up if catalog submission still requires a repo-root pointer; see the public [Cursor marketplace submission](https://cursor.com/marketplace/publish) form for the current review checklist.
+Cursor's [plugin reference](https://cursor.com/docs/reference/plugins) requires a repository-root marketplace manifest when a plugin lives in a subdirectory. This repository provides [`.cursor-plugin/marketplace.json`](../../.cursor-plugin/marketplace.json), which points discovery at `packages/attenza-plugin`. Submit the public repository URL through the [Cursor marketplace form](https://cursor.com/marketplace/publish).

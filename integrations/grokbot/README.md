@@ -13,6 +13,6 @@ The skill corrects the important behavioral gap in a raw MCP connection: after `
 Publication checklist:
 
 1. Symlink or copy `packages/attenza-plugin` to `~/.cursor/plugins/local/attenza` and verify its MCP server and skill are discovered.
-2. Submit the portable plugin (or a later marketplace overlay that points at it) at `cursor.com/marketplace/publish`.
+2. Submit this public repository at `cursor.com/marketplace/publish`; `.cursor-plugin/marketplace.json` points Cursor at the shared package.
 3. After review, install Attenza from GrokBot Plugins and verify the skill-driven polling loop.
 4. Revoke the test grant in Attenza and confirm subsequent calls are denied.

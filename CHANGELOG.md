@@ -6,7 +6,9 @@
 
 - Moved the portable Agent Plugin from the repository root to `packages/attenza-plugin/` so multiple hosts can share one skill and one MCP config.
 - Updated Cursor local testing to symlink or copy that package directory to `~/.cursor/plugins/local/attenza` instead of the repository root.
-- Added Codex and Claude Code integration notes. Vendor overlays (`.codex-plugin`, `.claude-plugin` / `.mcp.json`) are documented as follow-ups, not copied trees.
+- Added native Codex and Claude Code manifests plus repository marketplaces without copying the shared skill.
+- Added the Cursor repository marketplace required to discover the nested plugin package.
+- Made the portable MCP manifest conform to Agent Plugins 1.0 and added cross-host URL/version drift checks.
 - Taught the intervention skill to preserve `task.id` for a later or scheduled wake when the host must end before a terminal state.
 - This is a breaking path change for anyone who installed the repository root as a Cursor plugin.
 

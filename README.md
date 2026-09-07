@@ -12,20 +12,23 @@ The Attenza application, API implementation, database, deployment, and infrastru
 | Integration | Available now | Currently tested | Next step |
 | --- | --- | --- | --- |
 | Cursor remote MCP | [`packages/attenza-plugin/mcp.json`](packages/attenza-plugin/mcp.json) points to the public OAuth endpoint | OAuth and MCP contract tested by Attenza; repository validation | Complete a real Cursor intervention round trip |
-| Cursor Agent Plugin | [`packages/attenza-plugin`](packages/attenza-plugin) is the portable package (`plugin.json`, MCP manifest, polling skill) | Manifest structure and CI checks | Symlink the package locally, verify skill discovery, then submit to the marketplace |
+| Cursor Agent Plugin | [`packages/attenza-plugin`](packages/attenza-plugin) plus a repository [`marketplace.json`](.cursor-plugin/marketplace.json) | Manifest/schema checks; repository discovery wiring | Verify local discovery, then submit the repository to the marketplace |
 | GrokBot custom connector | Shared OAuth endpoint works without a private URL | OAuth, tool discovery, intervention creation, human decision, and result retrieval tested end to end | Retain as the direct integration path |
 | GrokBot plugin | The same Agent Plugin adds polling and expiry behavior to the MCP endpoint | Package validation; raw MCP round trip tested | Publish through the Cursor marketplace and verify catalog installation |
-| Codex | Portable Agent Plugins 1.0 root; see [`integrations/codex`](integrations/codex) | Documentation and package layout | Load the package as an Agent Plugins root; add `.codex-plugin` later only if required |
-| Claude Code | Planned `.claude-plugin` plus `.mcp.json` shim; see [`integrations/claude-code`](integrations/claude-code) | Documentation only | Add host shims without copying the skill or MCP URL |
+| Codex | Native [`.codex-plugin`](packages/attenza-plugin/.codex-plugin/plugin.json) manifest and repo marketplace | Manifest validation and repository discovery wiring | Install from the repo marketplace and complete an OAuth round trip |
+| Claude Code | Native [`.claude-plugin`](packages/attenza-plugin/.claude-plugin/plugin.json) manifest and repo marketplace | Manifest validation and repository discovery wiring | Install from the repo marketplace and complete an OAuth round trip |
 | Attenza CLI | Browser OAuth, create, get, wait, cancel, and token refresh | Seven unit tests, clean wheel build, and isolated install | Complete one interactive OAuth and intervention smoke test |
 
-Cursor and GrokBot remain the tested hosts. Codex and Claude Code are documented so later overlays can attach to the same plugin package instead of forking it.
+Cursor and GrokBot remain the end-to-end tested hosts. Codex and Claude Code now have native install packages; their live OAuth round trips remain to be completed.
 
 ## What every folder is for
 
 | Path | Why it exists |
 | --- | --- |
 | [`packages/attenza-plugin`](packages/attenza-plugin) | Portable Agent Plugin: one manifest, one MCP config, one skill. Hosts consume this directory. |
+| [`.cursor-plugin`](.cursor-plugin) | Cursor repository marketplace pointing at the shared package |
+| [`.agents/plugins`](.agents/plugins) | Codex repository marketplace pointing at the shared package |
+| [`.claude-plugin`](.claude-plugin) | Claude Code repository marketplace pointing at the shared package |
 | [`integrations/cursor`](integrations/cursor) | Cursor-specific setup and local test notes |
 | [`integrations/grokbot`](integrations/grokbot) | GrokBot publication status and next steps |
 | [`integrations/codex`](integrations/codex) | Codex / Agent Plugins install notes |
@@ -71,6 +74,16 @@ For a local Cursor plugin test, symlink or copy the portable package rather than
 ```sh
 mkdir -p ~/.cursor/plugins/local
 ln -sfn "$PWD/packages/attenza-plugin" ~/.cursor/plugins/local/attenza
+```
+
+Codex and Claude Code install from the public repository marketplaces:
+
+```sh
+codex plugin marketplace add maxhillaert/attenza-integrations
+codex plugin add attenza@attenza-integrations
+
+claude plugin marketplace add maxhillaert/attenza-integrations
+claude plugin install attenza@attenza-integrations
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md) before contributing.

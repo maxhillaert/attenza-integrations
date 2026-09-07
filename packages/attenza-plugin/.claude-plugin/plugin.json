@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "attenza",
+  "displayName": "Attenza",
+  "version": "0.3.0",
+  "description": "Pause agent work, collect durable human decisions, and resume safely through Attenza.",
+  "author": {
+    "name": "Max Hillaert"
+  },
+  "homepage": "https://staging.attenza.io",
+  "repository": "https://github.com/maxhillaert/attenza-integrations",
+  "license": "MIT",
+  "keywords": ["human-in-the-loop", "mcp", "a2ui", "approvals"],
+  "skills": "./skills/",
+  "mcpServers": {
+    "attenza": {
+      "type": "http",
+      "url": "https://staging.attenza.io/mcp"
+    }
+  }
+}
