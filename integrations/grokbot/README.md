@@ -1,5 +1,7 @@
 # GrokBot
 
+This file is human setup, publication, and verification documentation; GrokBot does not load it as behavioral guidance. When Attenza is installed as an Agent Plugin, GrokBot receives the same A2UI authoring, decision-design, polling, and expiry instructions as Cursor from [`packages/attenza-plugin/skills/attenza-intervention`](../../packages/attenza-plugin/skills/attenza-intervention). A raw custom MCP connector exposes tools but does not add the skill. A future GrokBot-only behavioral rule should be a conditionally loaded reference under that shared skill, not another skill copy here.
+
 Attenza works end to end in GrokBot today as a custom OAuth MCP connector. Add the shared endpoint through [Grok connectors](https://grok.com/connectors) using New Connector → Custom:
 
 ```text

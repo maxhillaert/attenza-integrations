@@ -2,6 +2,8 @@
 
 Cursor is the first active integration target.
 
+This file is human setup and verification documentation; Cursor does not load it as behavioral guidance. When Attenza is installed as an Agent Plugin, Cursor loads the canonical skill and its A2UI authoring references from [`packages/attenza-plugin/skills/attenza-intervention`](../../packages/attenza-plugin/skills/attenza-intervention). A raw remote MCP connection exposes tools but does not add the skill. Add shared agent behavior to the package, not here.
+
 ## Remote MCP test
 
 Add [`packages/attenza-plugin/mcp.json`](../../packages/attenza-plugin/mcp.json) to Cursor's MCP configuration. It contains only the public endpoint:

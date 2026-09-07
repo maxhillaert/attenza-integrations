@@ -25,12 +25,12 @@ Cursor and GrokBot remain the end-to-end tested hosts. Codex and Claude Code now
 
 | Path | Why it exists |
 | --- | --- |
-| [`packages/attenza-plugin`](packages/attenza-plugin) | Portable Agent Plugin: one manifest, one MCP config, one skill. Hosts consume this directory. |
+| [`packages/attenza-plugin`](packages/attenza-plugin) | Portable Agent Plugin: one manifest, one MCP config, one skill, and its shared A2UI authoring references. Hosts consume this directory. |
 | [`.cursor-plugin`](.cursor-plugin) | Cursor repository marketplace pointing at the shared package |
 | [`.agents/plugins`](.agents/plugins) | Codex repository marketplace pointing at the shared package |
 | [`.claude-plugin`](.claude-plugin) | Claude Code repository marketplace pointing at the shared package |
-| [`integrations/cursor`](integrations/cursor) | Cursor-specific setup and local test notes |
-| [`integrations/grokbot`](integrations/grokbot) | GrokBot publication status and next steps |
+| [`integrations/cursor`](integrations/cursor) | Human-facing Cursor setup and local test notes; not agent instructions |
+| [`integrations/grokbot`](integrations/grokbot) | Human-facing GrokBot publication status and test notes; not agent instructions |
 | [`integrations/codex`](integrations/codex) | Codex / Agent Plugins install notes |
 | [`integrations/claude-code`](integrations/claude-code) | Planned Claude Code overlay notes |
 | [`src/attenza_cli`](src/attenza_cli) | The dependency-free `attenza` command-line client |

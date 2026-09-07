@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-09-07
+
+- Added a practical Attenza A2UI authoring reference covering the accepted message sequence, safe component subset, data bindings, choices, and actions.
+- Added mobile-first decision-design guidance so agents match control cardinality to the human decision and avoid ambiguous duplicate outcomes.
+- Clarified that host integration README files are human setup notes while Cursor and GrokBot load one shared behavioral skill.
+- Simplified the release approval example to use two direct semantic actions without a redundant approval checkbox.
+
 ## [0.3.0] - 2026-09-07
 
 - Moved the portable Agent Plugin from the repository root to `packages/attenza-plugin/` so multiple hosts can share one skill and one MCP config.
@@ -26,7 +33,8 @@
 - Added focused Cursor integration instructions.
 - Recorded GrokBot as the next planned public integration.
 
-[Unreleased]: https://github.com/maxhillaert/attenza-integrations/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/maxhillaert/attenza-integrations/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/maxhillaert/attenza-integrations/releases/tag/v0.1.0
