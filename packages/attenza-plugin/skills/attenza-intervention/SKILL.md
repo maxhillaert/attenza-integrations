@@ -15,6 +15,11 @@ The connection needs `tasks:create` to post and `tasks:read` to wait for the ans
 
 Create an intervention only when work is genuinely blocked on a human decision. Put evidence and constraints in immutable `/context`; put only human-editable values under `/state`. Author only official A2UI v0.9/v0.9.1 Basic Catalog messages. Never supply HTML, JavaScript, CSS, URLs, classes, expressions, inline catalogs, or executable content.
 
+Before authoring a surface, read:
+
+- [references/a2ui-authoring.md](references/a2ui-authoring.md) for Attenza's accepted message shape, safe Basic Catalog subset, bindings, and component examples.
+- [references/decision-design.md](references/decision-design.md) for choosing controls and actions that express the decision without ambiguity.
+
 Use a stable, retry-safe `message_id`. Give the task a concise title, decision-oriented summary, recognizable source, and a `context_id` that groups related work. Make action names semantic, such as `approve_selected`, `revise`, or `reject`.
 
 For time-sensitive input, pass `expires_at` as an absolute timezone-aware ISO 8601 timestamp no more than seven days ahead. Alternatively pass `expires_in_seconds` from 60 to 604800, but never pass both. If neither is supplied, Attenza uses 24 hours. Record the returned `task.metadata.expiresAt`; it is the authoritative polling deadline.

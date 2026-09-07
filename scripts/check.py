@@ -35,6 +35,8 @@ REQUIRED = (
     "integrations/codex/README.md",
     "integrations/claude-code/README.md",
     CANONICAL_SKILL,
+    "packages/attenza-plugin/skills/attenza-intervention/references/a2ui-authoring.md",
+    "packages/attenza-plugin/skills/attenza-intervention/references/decision-design.md",
     "src/attenza_cli/cli.py",
     "schemas/intervention.schema.json",
     "examples/release-approval.json",

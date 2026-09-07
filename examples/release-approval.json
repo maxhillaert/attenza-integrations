@@ -21,10 +21,9 @@
         "surfaceId": "release-approval",
         "components": [
           { "id": "root", "component": "Card", "child": "content" },
-          { "id": "content", "component": "Column", "children": ["heading", "checks", "approval", "notes", "actions"] },
+          { "id": "content", "component": "Column", "children": ["heading", "checks", "notes", "actions"] },
           { "id": "heading", "component": "Text", "text": "Production release", "variant": "h2" },
           { "id": "checks", "component": "Text", "text": { "path": "/context/checks" } },
-          { "id": "approval", "component": "CheckBox", "label": "I approve this production release", "value": { "path": "/state/approved" } },
           { "id": "notes", "component": "TextField", "label": "Notes for the agent", "value": { "path": "/state/notes" }, "variant": "longText" },
           { "id": "actions", "component": "Row", "children": ["approve", "reject"] },
           { "id": "approve", "component": "Button", "child": "approve-label", "variant": "primary", "action": { "event": { "name": "approve_release", "context": {} } } },
@@ -45,7 +44,6 @@
             "environment": "production"
           },
           "state": {
-            "approved": false,
             "notes": ""
           }
         }
