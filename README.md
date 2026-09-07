@@ -17,7 +17,7 @@ The Attenza application, API implementation, database, deployment, and infrastru
 | GrokBot plugin | The same Agent Plugin adds polling and expiry behavior to the MCP endpoint | Package validation; raw MCP round trip tested | Publish through the Cursor marketplace and verify catalog installation |
 | Codex | Portable Agent Plugins 1.0 root; see [`integrations/codex`](integrations/codex) | Documentation and package layout | Load the package as an Agent Plugins root; add `.codex-plugin` later only if required |
 | Claude Code | Planned `.claude-plugin` plus `.mcp.json` shim; see [`integrations/claude-code`](integrations/claude-code) | Documentation only | Add host shims without copying the skill or MCP URL |
-| Attenza CLI | Browser OAuth, create, get, wait, cancel, and token refresh | Six unit tests, clean wheel build, and isolated install | Complete one interactive OAuth and intervention smoke test |
+| Attenza CLI | Browser OAuth, create, get, wait, cancel, and token refresh | Seven unit tests, clean wheel build, and isolated install | Complete one interactive OAuth and intervention smoke test |
 
 Cursor and GrokBot remain the tested hosts. Codex and Claude Code are documented so later overlays can attach to the same plugin package instead of forking it.
 
