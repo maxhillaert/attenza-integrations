@@ -15,7 +15,7 @@ This package is the only copy of the skill and the only portable MCP configurati
 | [`.codex-plugin/plugin.json`](.codex-plugin/plugin.json) | Codex-native discovery and MCP wiring |
 | [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) | Claude Code-native discovery and MCP wiring |
 
-The MCP URL is `https://staging.attenza.io/mcp`. Authentication is OAuth. Do not add API keys, bearer tokens, or private capability URLs.
+The MCP URL is `https://www.attenza.io/mcp`. Authentication is OAuth. Do not add API keys, bearer tokens, or private capability URLs.
 
 ## How hosts consume it
 

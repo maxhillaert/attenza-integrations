@@ -13,7 +13,7 @@ Add [`packages/attenza-plugin/mcp.json`](../../packages/attenza-plugin/mcp.json)
   "mcpServers": {
     "attenza": {
       "type": "streamable-http",
-      "url": "https://staging.attenza.io/mcp"
+      "url": "https://www.attenza.io/mcp"
     }
   }
 }

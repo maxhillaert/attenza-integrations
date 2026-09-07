@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 
-DEFAULT_SERVER = "https://staging.attenza.io/mcp"
+DEFAULT_SERVER = "https://www.attenza.io/mcp"
 SCOPES = "tasks:create tasks:read tasks:cancel"
 PROTOCOL_VERSION = "2025-11-25"
 

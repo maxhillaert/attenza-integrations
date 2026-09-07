@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-09-08
+
+- Replaced every public staging hostname with the canonical production origin, `https://www.attenza.io`.
+- Changed the plugin manifests and CLI default MCP endpoint to `https://www.attenza.io/mcp`.
+- Existing staging OAuth grants are origin- and resource-bound; reconnect Attenza after upgrading.
+
 ## [0.4.0] - 2026-09-07
 
 - Added a practical Attenza A2UI authoring reference covering the accepted message sequence, safe component subset, data bindings, choices, and actions.
@@ -33,7 +39,8 @@
 - Added focused Cursor integration instructions.
 - Recorded GrokBot as the next planned public integration.
 
-[Unreleased]: https://github.com/maxhillaert/attenza-integrations/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/maxhillaert/attenza-integrations/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.1.0...v0.2.0

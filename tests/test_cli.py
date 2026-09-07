@@ -26,13 +26,13 @@ ROOT = Path(__file__).resolve().parents[1]
 class ClientTests(unittest.TestCase):
     def test_public_mcp_url_is_accepted(self) -> None:
         self.assertEqual(
-            validate_server_url("https://staging.attenza.io/mcp/"),
-            "https://staging.attenza.io/mcp",
+            validate_server_url("https://www.attenza.io/mcp/"),
+            "https://www.attenza.io/mcp",
         )
         with self.assertRaises(AttenzaError):
-            validate_server_url("https://staging.attenza.io/mcp/" + "private-token")
+            validate_server_url("https://www.attenza.io/mcp/" + "private-token")
         with self.assertRaises(AttenzaError):
-            validate_server_url("http://staging.attenza.io/mcp")
+            validate_server_url("http://www.attenza.io/mcp")
 
     def test_pkce_values_have_required_shape(self) -> None:
         verifier, challenge = pkce_pair()
@@ -44,7 +44,7 @@ class ClientTests(unittest.TestCase):
             os.environ, {"ATTENZA_CONFIG_HOME": directory}
         ):
             expected = Credentials(
-                server_url="https://staging.attenza.io/mcp",
+                server_url="https://www.attenza.io/mcp",
                 client_id="public-client",
                 access_token="test-access-token",
                 refresh_token="test-refresh-token",
