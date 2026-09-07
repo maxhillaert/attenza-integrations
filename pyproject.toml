@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "attenza-cli"
-version = "0.4.0"
+version = "0.5.0"
 description = "OAuth MCP command-line client for Attenza human decisions"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -24,7 +24,7 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://staging.attenza.io"
+Homepage = "https://www.attenza.io"
 Repository = "https://github.com/maxhillaert/attenza-integrations"
 Issues = "https://github.com/maxhillaert/attenza-integrations/issues"
 

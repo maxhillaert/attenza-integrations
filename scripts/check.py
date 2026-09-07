@@ -10,7 +10,8 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ENDPOINT = "https://staging.attenza.io/mcp"
+ENDPOINT = "https://www.attenza.io/mcp"
+FORBIDDEN_PUBLIC_HOST = "staging" + ".attenza.io"
 AGENT_PLUGIN_MCP_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"
 CANONICAL_SKILL = "packages/attenza-plugin/skills/attenza-intervention/SKILL.md"
 CANONICAL_MCP = "packages/attenza-plugin/mcp.json"
@@ -214,6 +215,8 @@ def main() -> None:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
+        if FORBIDDEN_PUBLIC_HOST in text:
+            fail(f"staging hostname must not appear in public file {relative_path}")
         for pattern in SECRET_PATTERNS:
             if pattern.search(text):
                 fail(f"possible credential or private capability URL in {relative_path}")

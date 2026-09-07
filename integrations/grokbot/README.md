@@ -5,7 +5,7 @@ This file is human setup, publication, and verification documentation; GrokBot d
 Attenza works end to end in GrokBot today as a custom OAuth MCP connector. Add the shared endpoint through [Grok connectors](https://grok.com/connectors) using New Connector → Custom:
 
 ```text
-https://staging.attenza.io/mcp
+https://www.attenza.io/mcp
 ```
 
 [`packages/attenza-plugin`](../../packages/attenza-plugin) packages the same endpoint with the canonical `attenza-intervention` skill as a portable Agent Plugin. [GrokBot plugin connections](https://cursor.com/help/grok-bot/connect-plugins) use the Cursor account and marketplace available to that account, so publishing that plugin through the Cursor marketplace is the route to a one-click GrokBot installation. The shared skill is deliberately not copied into this folder.

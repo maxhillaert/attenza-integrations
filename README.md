@@ -3,7 +3,7 @@
 [![CI](https://github.com/maxhillaert/attenza-integrations/actions/workflows/ci.yml/badge.svg)](https://github.com/maxhillaert/attenza-integrations/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-The public multi-host integration kit for [Attenza](https://staging.attenza.io). It contains only the client-side pieces needed to connect agents to Attenza: a CLI, one portable Agent Plugin, and focused setup notes per host.
+The public multi-host integration kit for [Attenza](https://www.attenza.io). It contains only the client-side pieces needed to connect agents to Attenza: a CLI, one portable Agent Plugin, and focused setup notes per host.
 
 The Attenza application, API implementation, database, deployment, and infrastructure remain in a separate private repository.
 
@@ -46,7 +46,7 @@ The CLI, examples, schemas, tests, and scripts stay at the repository root as si
 OAuth-capable MCP clients connect to:
 
 ```text
-https://staging.attenza.io/mcp
+https://www.attenza.io/mcp
 ```
 
 The client discovers Attenza OAuth, opens sign-in and consent, and receives revocable user-scoped access. Do not publish API keys, OAuth tokens, authorization codes, or legacy capability URLs.
