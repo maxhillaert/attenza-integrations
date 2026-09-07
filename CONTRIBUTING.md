@@ -6,13 +6,13 @@ Thank you for improving Attenza's agent integrations.
 
 1. Keep one platform or one shared behavior change per pull request.
 2. Never commit credentials, OAuth tokens, authorization codes, private capability URLs, personal email addresses, or real task payloads.
-3. Put reusable behavior in `skills/attenza-intervention/SKILL.md`, then run `mise run sync` so packaged copies cannot drift.
-4. Use the canonical endpoint from `config/endpoint.json`; do not create platform-specific service URLs.
+3. Put reusable behavior only in `skills/attenza-intervention/SKILL.md`; do not create vendor copies.
+4. Use the canonical endpoint from root `mcp.json`; do not create platform-specific service URLs.
 5. Run `mise run check`.
 
 CLI changes must remain dependency-free unless a dependency brings a clear interoperability or security benefit. Add unit tests for token handling, transport parsing, and payload behavior without calling the live service.
 
-For a new platform, add a directory under `platforms/` containing a short README and the smallest supported configuration file. State honestly when a platform requires marketplace review or does not support user-installed remote MCP.
+Do not add another platform package while Cursor and GrokBot remain the active targets. Record future ideas in an issue instead. State honestly when a platform requires marketplace review or does not support user-installed remote MCP.
 
 ## Releases
 

@@ -11,16 +11,9 @@ body:
     attributes:
       label: Platform
       options:
-        - ChatGPT
-        - Claude.ai
-        - Claude Code
-        - Codex
         - Cursor
-        - Gemini CLI
-        - GitHub Copilot
-        - Grok
-        - VS Code
-        - Windsurf
+        - GrokBot
+        - Attenza CLI
         - Portable Agent Plugin
     validations:
       required: true

@@ -3,103 +3,62 @@
 [![CI](https://github.com/maxhillaert/attenza-integrations/actions/workflows/ci.yml/badge.svg)](https://github.com/maxhillaert/attenza-integrations/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Public integrations for [Attenza](https://staging.attenza.io), the durable human-decision inbox for AI agents.
+The small public integration kit for [Attenza](https://staging.attenza.io). It contains only the client-side pieces needed to connect agents to Attenza: a CLI, one agent skill, one portable plugin manifest, and focused setup notes.
 
-An agent can pause consequential work, post an interactive decision to its human owner's Attenza timeline, and resume from the recorded answer. Every user connects through OAuth; integrations contain one public MCP URL and never contain API keys, shared secrets, or private capability links.
+The Attenza application, API implementation, database, deployment, and infrastructure remain in a separate private repository.
 
-> Attenza is currently in public beta. The canonical endpoint is `https://staging.attenza.io/mcp` until the production domain launches.
+## Integration status
 
-This is intentionally **not** the Attenza application repository. It contains no backend, PWA, database, deployment, or private infrastructure code.
+| Integration | Available now | Currently tested | Next step |
+| --- | --- | --- | --- |
+| Cursor remote MCP | [`mcp.json`](mcp.json) points to the public OAuth endpoint | Live OAuth discovery and unauthenticated MCP challenge; repository validation | Complete a real Cursor OAuth login and intervention round trip |
+| Cursor Agent Plugin | Root [`plugin.json`](plugin.json), MCP manifest, and skill form one portable package | Manifest structure and CI checks | Install from GitHub in Cursor and verify skill discovery |
+| GrokBot | Public OAuth MCP endpoint is ready for a future listing | Current Grok iOS UI has no bespoke MCP field; no end-to-end test yet | Establish xAI's public plugin submission format and publish it |
+| Attenza CLI | Browser OAuth, create, get, wait, cancel, and token refresh | Six unit tests, clean wheel build, and isolated install | Complete one interactive OAuth and intervention smoke test |
 
-## Start here
+We are intentionally taking integrations one at a time. Other agent platforms are out of scope until Cursor and GrokBot are working end to end.
 
-If your agent supports remote MCP with OAuth, add:
+## What every folder is for
+
+| Path | Why it exists |
+| --- | --- |
+| [`integrations/cursor`](integrations/cursor) | Cursor-specific setup and testing notes |
+| [`integrations/grokbot`](integrations/grokbot) | GrokBot publication status and next steps |
+| [`skills/attenza-intervention`](skills/attenza-intervention) | The single canonical instruction set that teaches an agent when to pause and how to resume |
+| [`src/attenza_cli`](src/attenza_cli) | The dependency-free `attenza` command-line client |
+| [`examples`](examples) | Synthetic intervention payloads for testing |
+| [`schemas`](schemas) | The public JSON shape accepted by the CLI |
+| [`scripts`](scripts) | Repository boundary, manifest, and secret-leak checks |
+| [`tests`](tests) | CLI unit tests; they do not contact a live account |
+
+At the repository root, `plugin.json`, `mcp.json`, and `skills/` together are the portable Agent Plugin. Keeping them at the root means there is no second copied plugin tree and no duplicated skill. `.github`, `mise.toml`, `pyproject.toml`, and the policy files are ordinary public-repository maintenance files.
+
+## Public endpoint
+
+OAuth-capable MCP clients connect to:
 
 ```text
 https://staging.attenza.io/mcp
 ```
 
-The client discovers Attenza's OAuth server, opens sign-in and consent, and receives a revocable connection scoped to that user. A useful smoke test is:
-
-> Ask me which environment to deploy to, send the choices to Attenza, and wait for my answer.
-
-## Packages
-
-| Package | Purpose |
-| --- | --- |
-| [`src/attenza_cli`](src/attenza_cli) | Dependency-free OAuth MCP command-line client |
-| [`plugins/attenza`](plugins/attenza) | Codex plugin with OAuth MCP and intervention guidance |
-| [`claude-plugins/attenza`](claude-plugins/attenza) | Claude Code plugin with the same behavior |
-| [`agent-plugins/attenza`](agent-plugins/attenza) | Portable Agent Plugins 1.0 package |
-| [`platforms`](platforms) | Copyable configuration and platform-specific instructions |
-| [`skills/attenza-intervention`](skills/attenza-intervention) | Canonical, vendor-neutral agent behavior |
-| [`schemas`](schemas) and [`examples`](examples) | Public intervention contract and synthetic examples |
-
-See the [platform support matrix](platforms/README.md) to choose an installation path.
+The client discovers Attenza OAuth, opens sign-in and consent, and receives revocable user-scoped access. Do not publish API keys, OAuth tokens, authorization codes, or legacy capability URLs.
 
 ## CLI
-
-Install directly from this public repository:
 
 ```sh
 uv tool install git+https://github.com/maxhillaert/attenza-integrations.git
 attenza login
-```
-
-`attenza login` opens Attenza OAuth in your browser and stores a revocable user token in your operating system's local configuration directory. No API key is requested.
-
-Create and wait for a synthetic example:
-
-```sh
 attenza create examples/release-approval.json
 attenza wait TASK_ID
 ```
 
-Other commands are `attenza status`, `attenza tools`, `attenza get TASK_ID`, `attenza cancel TASK_ID`, and `attenza logout`.
-
-## What the agent receives
-
-The MCP server exposes three tools:
-
-- `create_intervention` creates an idempotent, durable decision task.
-- `get_intervention` reads its current state and final decision.
-- `cancel_intervention` stops a task that is no longer needed.
-
-Creating, reading, and canceling are separate OAuth scopes. Revoking a connection in Attenza immediately blocks its access tokens.
-
-## Repository layout
-
-```text
-.
-├── .agents/plugins/          # Codex marketplace catalog
-├── .claude-plugin/           # Claude Code marketplace catalog
-├── agent-plugins/attenza/    # Portable Agent Plugins package
-├── claude-plugins/attenza/   # Claude Code package
-├── examples/                 # Synthetic intervention payloads
-├── config/endpoint.json      # Canonical public integration contract
-├── platforms/                # Host-specific setup and config
-├── plugins/attenza/          # Codex package
-├── schemas/                  # Public JSON Schema
-├── scripts/                  # Dependency-free validation
-├── src/attenza_cli/          # OAuth MCP CLI
-└── skills/                   # Canonical shared behavior
-```
+The CLI stores its OAuth tokens only in the user's local configuration directory. Run `attenza logout` locally and revoke the connection in Attenza when it is no longer required.
 
 ## Develop
-
-Install [mise](https://mise.jdx.dev/) and run:
 
 ```sh
 mise install
 mise run check
 ```
 
-The runtime and tests use only Python's standard library. Run `mise run sync` after changing the canonical skill, then commit all synchronized copies. Platform submissions and store publication are tracked separately from the open-source packages.
-
-## Security
-
-Do not open a public issue for a vulnerability or include tokens, authorization codes, private capability URLs, or personal task data in a report. See [SECURITY.md](SECURITY.md).
-
-## Contributing
-
-Small, platform-focused pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before adding a new host or changing the shared agent behavior.
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md) before contributing.
