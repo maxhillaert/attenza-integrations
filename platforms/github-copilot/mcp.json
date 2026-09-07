@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "attenza": {
+      "type": "http",
+      "url": "https://staging.attenza.io/mcp",
+      "tools": [
+        "create_intervention",
+        "get_intervention",
+        "cancel_intervention"
+      ]
+    }
+  }
+}

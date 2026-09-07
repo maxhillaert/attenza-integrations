@@ -1,0 +1,16 @@
+min_version = "2025.8.0"
+
+[tools]
+python = "3.13.14"
+
+[tasks.sync]
+description = "Copy the canonical intervention skill into each published package"
+run = "python scripts/sync_skill.py"
+
+[tasks.test]
+description = "Validate manifests, endpoint configuration, skill parity, and public-repo safety"
+run = "python scripts/check.py"
+
+[tasks.check]
+description = "Run the complete repository quality gate"
+depends = ["test"]

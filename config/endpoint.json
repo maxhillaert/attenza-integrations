@@ -1,0 +1,10 @@
+{
+  "mcpUrl": "https://staging.attenza.io/mcp",
+  "oauthProtectedResourceMetadata": "https://staging.attenza.io/.well-known/oauth-protected-resource/mcp",
+  "scopes": [
+    "tasks:create",
+    "tasks:read",
+    "tasks:cancel"
+  ],
+  "status": "public-beta"
+}

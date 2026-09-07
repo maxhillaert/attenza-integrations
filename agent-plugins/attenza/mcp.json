@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "attenza": {
+      "type": "streamable-http",
+      "url": "https://staging.attenza.io/mcp"
+    }
+  }
+}
