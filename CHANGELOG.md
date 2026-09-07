@@ -9,6 +9,8 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 ### Added
 
 - Public OAuth-protected MCP configuration for Attenza.
+- Dependency-free `attenza` OAuth MCP command-line client.
+- Public intervention JSON Schema and synthetic examples.
 - Codex, Claude Code, and portable Agent Plugins packages.
 - Setup guidance for ChatGPT, Claude, Codex, Cursor, GitHub Copilot, Gemini CLI, VS Code, Windsurf, and Grok.
 - Dependency-free repository validation through mise.

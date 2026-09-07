@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "attenza-cli"
+version = "0.1.0"
+description = "OAuth MCP command-line client for Attenza human decisions"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [
+  { name = "Max Hillaert" },
+]
+keywords = ["agents", "a2ui", "human-in-the-loop", "mcp", "oauth"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://staging.attenza.io"
+Repository = "https://github.com/maxhillaert/attenza-integrations"
+Issues = "https://github.com/maxhillaert/attenza-integrations/issues"
+
+[project.scripts]
+attenza = "attenza_cli.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/attenza_cli"]

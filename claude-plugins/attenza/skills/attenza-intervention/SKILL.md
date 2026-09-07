@@ -7,6 +7,8 @@ description: Pause an agent for a durable human decision through Attenza. Use wh
 
 Use the connected `create_intervention`, `get_intervention`, and `cancel_intervention` tools. If they are unavailable, ask the user to connect or reconnect Attenza through the platform's OAuth flow. Never ask for an API key or private capability URL.
 
+When the MCP tools are not exposed directly but the public `attenza` CLI is installed and already authorized, use `attenza create`, `attenza get`, `attenza wait`, or `attenza cancel` as the equivalent local transport. Do not initiate an interactive login during unattended work.
+
 The connection needs `tasks:create` to post and `tasks:read` to wait for the answer; `tasks:cancel` is optional. If a call is denied by the connection's permissions, ask its owner to adjust or reconnect that connection in Attenza rather than seeking another credential or bypass.
 
 ## Create
