@@ -92,7 +92,17 @@ def main() -> None:
         "project"
     ]
     plugin = load_json("plugin.json")
-    if plugin.get("name") != "attenza" or plugin.get("version") != package["version"]:
+    source_version = re.search(
+        r'^__version__ = "([^"]+)"$',
+        (ROOT / "src/attenza_cli/__init__.py").read_text(encoding="utf-8"),
+        re.MULTILINE,
+    )
+    if (
+        plugin.get("name") != "attenza"
+        or plugin.get("version") != package["version"]
+        or source_version is None
+        or source_version.group(1) != package["version"]
+    ):
         fail("plugin identity or version has drifted from the CLI package")
 
     for path in ROOT.rglob("*"):

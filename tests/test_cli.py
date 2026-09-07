@@ -17,7 +17,7 @@ from attenza_cli.client import (
     save_credentials,
     validate_server_url,
 )
-from attenza_cli.cli import _load_object, _task_state, build_parser
+from attenza_cli.cli import _load_object, _task_expiry, _task_state, build_parser
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -78,6 +78,13 @@ class ClientTests(unittest.TestCase):
         )
         parser = build_parser()
         self.assertEqual(parser.parse_args(["get", "task-1"]).task_id, "task-1")
+
+    def test_task_expiry_reads_a2a_metadata(self) -> None:
+        self.assertEqual(
+            _task_expiry({"task": {"metadata": {"expiresAt": "2026-09-07T12:00:00Z"}}}),
+            1788782400.0,
+        )
+        self.assertIsNone(_task_expiry({"task": {"metadata": {}}}))
 
 
 if __name__ == "__main__":

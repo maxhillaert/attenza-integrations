@@ -1,6 +1,6 @@
 ---
 name: attenza-intervention
-description: Pause an agent for a durable human decision through Attenza. Use when an action needs approval, selection, correction, missing input, or explicit human judgment and the Attenza MCP tools are connected.
+description: Pause agent work for a durable human decision through Attenza, poll until the decision or deadline, and resume from the recorded result. Use when an action needs approval, selection, correction, missing input, or explicit human judgment and the Attenza MCP tools are connected.
 ---
 
 # Attenza intervention
@@ -17,11 +17,18 @@ Create an intervention only when work is genuinely blocked on a human decision. 
 
 Use a stable, retry-safe `message_id`. Give the task a concise title, decision-oriented summary, recognizable source, and a `context_id` that groups related work. Make action names semantic, such as `approve_selected`, `revise`, or `reject`.
 
+For time-sensitive input, pass `expires_at` as an absolute timezone-aware ISO 8601 timestamp no more than seven days ahead. Alternatively pass `expires_in_seconds` from 60 to 604800, but never pass both. If neither is supplied, Attenza uses 24 hours. Record the returned `task.metadata.expiresAt`; it is the authoritative polling deadline.
+
 ## Wait and resume
 
-Preserve the returned task id and stop the gated action. Poll `get_intervention` at a reasonable interval; do not invent or infer the human's answer. Resume only from a terminal task:
+Immediately after a successful create, preserve the returned `task.id` and `task.metadata.expiresAt`, stop the gated action, and start polling `get_intervention` with that exact id. Do not finish the agent run merely because creation succeeded, and do not ask the human to repeat their answer in chat.
+
+Poll after 5 seconds, then use bounded backoff up to 30 seconds. Do not busy-loop. Keep polling while the host execution remains active, the task is `TASK_STATE_INPUT_REQUIRED`, and the expiry deadline has not passed. If the host must end before the task is terminal, report the existing task id and deadline so the next run polls that task instead of creating a duplicate.
+
+Resume only from a terminal task:
 
 - `TASK_STATE_COMPLETED`: read the decision artifact, branch on `action.name`, and use the synchronized model plus `/state` patch.
-- `TASK_STATE_CANCELED`: stop the gated work. `expired` and `canceled` are not approval.
+- `TASK_STATE_CANCELED` with `metadata.resolution="expired"`: stop waiting because the deadline passed; do not perform the gated action.
+- `TASK_STATE_CANCELED` with `metadata.resolution="canceled"`: stop the gated work.
 
-A rejection action is a completed human decision, not a failed task. Never repeat a completed or canceled intervention.
+A rejection action is a completed human decision, not a failed task. Never repeat a completed, canceled, or expired intervention. If polling fails transiently before the deadline, retry `get_intervention`; never create a replacement unless the user explicitly asks for a new decision.

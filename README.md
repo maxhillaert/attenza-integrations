@@ -11,9 +11,10 @@ The Attenza application, API implementation, database, deployment, and infrastru
 
 | Integration | Available now | Currently tested | Next step |
 | --- | --- | --- | --- |
-| Cursor remote MCP | [`mcp.json`](mcp.json) points to the public OAuth endpoint | Live OAuth discovery and unauthenticated MCP challenge; repository validation | Complete a real Cursor OAuth login and intervention round trip |
-| Cursor Agent Plugin | Root [`plugin.json`](plugin.json), MCP manifest, and skill form one portable package | Manifest structure and CI checks | Install from GitHub in Cursor and verify skill discovery |
-| GrokBot | Public OAuth MCP endpoint is ready for a future listing | Current Grok iOS UI has no bespoke MCP field; no end-to-end test yet | Establish xAI's public plugin submission format and publish it |
+| Cursor remote MCP | [`mcp.json`](mcp.json) points to the public OAuth endpoint | OAuth and MCP contract tested by Attenza; repository validation | Complete a real Cursor intervention round trip |
+| Cursor Agent Plugin | Root [`plugin.json`](plugin.json), MCP manifest, and polling skill form one portable package | Manifest structure and CI checks | Install locally, verify skill discovery, then submit to the marketplace |
+| GrokBot custom connector | Shared OAuth endpoint works without a private URL | OAuth, tool discovery, intervention creation, human decision, and result retrieval tested end to end | Retain as the direct integration path |
+| GrokBot plugin | The portable Agent Plugin adds polling and expiry behavior to the same MCP endpoint | Package validation; raw MCP round trip tested | Publish through the Cursor marketplace and verify catalog installation |
 | Attenza CLI | Browser OAuth, create, get, wait, cancel, and token refresh | Six unit tests, clean wheel build, and isolated install | Complete one interactive OAuth and intervention smoke test |
 
 We are intentionally taking integrations one at a time. Other agent platforms are out of scope until Cursor and GrokBot are working end to end.
@@ -31,7 +32,7 @@ We are intentionally taking integrations one at a time. Other agent platforms ar
 | [`scripts`](scripts) | Repository boundary, manifest, and secret-leak checks |
 | [`tests`](tests) | CLI unit tests; they do not contact a live account |
 
-At the repository root, `plugin.json`, `mcp.json`, and `skills/` together are the portable Agent Plugin. Keeping them at the root means there is no second copied plugin tree and no duplicated skill. `.github`, `mise.toml`, `pyproject.toml`, and the policy files are ordinary public-repository maintenance files.
+At the repository root, `plugin.json`, `mcp.json`, and `skills/` together are the portable Agent Plugin used by Cursor and GrokBot. Keeping them at the root means there is no second copied plugin tree and no duplicated skill. `.github`, `mise.toml`, `pyproject.toml`, and the policy files are ordinary public-repository maintenance files.
 
 ## Public endpoint
 
