@@ -1,8 +1,0 @@
-{
-  "servers": {
-    "attenza": {
-      "type": "http",
-      "url": "https://staging.attenza.io/mcp"
-    }
-  }
-}
