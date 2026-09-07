@@ -10,5 +10,5 @@
 
 - [ ] I ran `mise run check`.
 - [ ] I did not add credentials, private capability URLs, personal data, or real task payloads.
-- [ ] I synchronized every packaged skill copy with `mise run sync` when shared behavior changed.
+- [ ] I did not duplicate `SKILL.md` or `mcp.json` per host.
 - [ ] I updated package versions and `CHANGELOG.md` when publishing behavior changed.

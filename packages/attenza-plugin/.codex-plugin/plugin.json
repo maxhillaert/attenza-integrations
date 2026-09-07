@@ -1,0 +1,32 @@
+{
+  "name": "attenza",
+  "version": "0.3.0",
+  "description": "Pause agent work, collect durable human decisions, and resume safely through Attenza.",
+  "author": {
+    "name": "Max Hillaert"
+  },
+  "homepage": "https://staging.attenza.io",
+  "repository": "https://github.com/maxhillaert/attenza-integrations",
+  "license": "MIT",
+  "keywords": ["human-in-the-loop", "mcp", "a2ui", "approvals"],
+  "skills": "./skills/",
+  "mcpServers": {
+    "attenza": {
+      "type": "http",
+      "url": "https://staging.attenza.io/mcp"
+    }
+  },
+  "interface": {
+    "displayName": "Attenza",
+    "shortDescription": "Durable human decisions for agents",
+    "longDescription": "Pause agent work, present a secure decision UI, and resume from the human's recorded answer.",
+    "developerName": "Max Hillaert",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://staging.attenza.io",
+    "defaultPrompt": [
+      "Ask me for a decision through Attenza and wait for my answer."
+    ],
+    "brandColor": "#F0643C"
+  }
+}

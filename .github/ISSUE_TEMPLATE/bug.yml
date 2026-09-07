@@ -13,6 +13,8 @@ body:
       options:
         - Cursor
         - GrokBot
+        - Codex
+        - Claude Code
         - Attenza CLI
         - Portable Agent Plugin
     validations:

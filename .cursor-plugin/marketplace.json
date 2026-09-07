@@ -1,0 +1,24 @@
+{
+  "name": "attenza-integrations",
+  "owner": {
+    "name": "Max Hillaert"
+  },
+  "metadata": {
+    "description": "Attenza human-decision integrations for AI agents"
+  },
+  "plugins": [
+    {
+      "name": "attenza",
+      "source": "packages/attenza-plugin",
+      "description": "Pause agent work, collect durable human decisions, and resume safely.",
+      "version": "0.3.0",
+      "author": {
+        "name": "Max Hillaert"
+      },
+      "repository": "https://github.com/maxhillaert/attenza-integrations",
+      "license": "MIT",
+      "keywords": ["human-in-the-loop", "mcp", "a2ui", "approvals"],
+      "category": "Productivity"
+    }
+  ]
+}
