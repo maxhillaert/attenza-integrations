@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/maxhillaert/attenza-integrations/blob/main/schemas/intervention.schema.json",
+  "title": "Attenza MCP intervention",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "summary", "source", "message_id", "a2ui_messages"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "source": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "message_id": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "context_id": { "type": ["string", "null"], "maxLength": 200 },
+    "expires_in_seconds": { "type": "integer", "minimum": 60, "maximum": 2592000 },
+    "a2ui_messages": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "type": "object" }
+    }
+  }
+}

@@ -2,6 +2,10 @@ min_version = "2025.8.0"
 
 [tools]
 python = "3.13.14"
+uv = "0.12.5"
+
+[env]
+PYTHONPATH = "src"
 
 [tasks.sync]
 description = "Copy the canonical intervention skill into each published package"
@@ -9,8 +13,15 @@ run = "python scripts/sync_skill.py"
 
 [tasks.test]
 description = "Validate manifests, endpoint configuration, skill parity, and public-repo safety"
-run = "python scripts/check.py"
+run = [
+  "python scripts/check.py",
+  "python -m unittest discover -s tests",
+]
+
+[tasks.build]
+description = "Build source and wheel distributions for the Attenza CLI"
+run = "uv build"
 
 [tasks.check]
 description = "Run the complete repository quality gate"
-depends = ["test"]
+depends = ["test", "build"]

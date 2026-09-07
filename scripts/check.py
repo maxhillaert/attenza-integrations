@@ -4,6 +4,7 @@ import ast
 import json
 import re
 import sys
+import tomllib
 from pathlib import Path
 from typing import Any
 
@@ -20,12 +21,18 @@ REQUIRED = (
     "agent-plugins/attenza/plugin.json",
     "agent-plugins/attenza/mcp.json",
     "skills/attenza-intervention/SKILL.md",
+    "pyproject.toml",
+    "src/attenza_cli/cli.py",
+    "schemas/intervention.schema.json",
+    "examples/release-approval.json",
 )
 SKILL_COPIES = (
     "plugins/attenza/skills/attenza-intervention/SKILL.md",
     "claude-plugins/attenza/skills/attenza-intervention/SKILL.md",
     "agent-plugins/attenza/skills/attenza-intervention/SKILL.md",
 )
+FORBIDDEN_PRIVATE_ROOTS = ("apps", "deploy", "infrastructure", "migrations", "terraform")
+GENERATED_PARTS = {".git", ".venv", "__pycache__", "build", "dist"}
 SECRET_PATTERNS = (
     re.compile(r"https://staging\.attenza\.io/mcp/[A-Za-z0-9_-]+"),
     re.compile(r"\b(?:ata|sk|ghp|github_pat)_[A-Za-z0-9_-]{16,}"),
@@ -43,6 +50,10 @@ def fail(message: str) -> None:
 
 
 def main() -> None:
+    for directory in FORBIDDEN_PRIVATE_ROOTS:
+        if (ROOT / directory).exists():
+            fail(f"private application surface must not enter this repository: {directory}/")
+
     for relative_path in REQUIRED:
         if not (ROOT / relative_path).is_file():
             fail(f"required file is missing: {relative_path}")
@@ -55,6 +66,11 @@ def main() -> None:
             fail(f"invalid JSON in {path.relative_to(ROOT)}: {exc}")
 
     for path in sorted((ROOT / "scripts").glob("*.py")):
+        try:
+            ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        except SyntaxError as exc:
+            fail(f"invalid Python in {path.relative_to(ROOT)}: {exc}")
+    for path in sorted((ROOT / "src").rglob("*.py")) + sorted((ROOT / "tests").glob("*.py")):
         try:
             ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
         except SyntaxError as exc:
@@ -86,7 +102,9 @@ def main() -> None:
             fail(f"skill copy has drifted: {relative_path}; run mise run sync")
 
     codex_manifest = load_json("plugins/attenza/.codex-plugin/plugin.json")
-    if codex_manifest.get("name") != "attenza" or codex_manifest.get("version") != "0.1.0":
+    package = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
+    package_version = package["version"]
+    if codex_manifest.get("name") != "attenza" or codex_manifest.get("version") != package_version:
         fail("Codex manifest identity or version is invalid")
     if codex_manifest.get("mcpServers") != "./.mcp.json":
         fail("Codex manifest must reference its packaged MCP configuration")
@@ -104,8 +122,17 @@ def main() -> None:
     if not (ROOT / claude_marketplace["plugins"][0]["source"]).is_dir():
         fail("Claude marketplace source does not exist")
 
+    versioned_manifests = (
+        "claude-plugins/attenza/.claude-plugin/plugin.json",
+        "agent-plugins/attenza/plugin.json",
+    )
+    for relative_path in versioned_manifests:
+        if load_json(relative_path).get("version") != package_version:
+            fail(f"package version has drifted in {relative_path}")
+
     for path in ROOT.rglob("*"):
-        if not path.is_file() or ".git" in path.parts:
+        relative_path = path.relative_to(ROOT)
+        if not path.is_file() or GENERATED_PARTS.intersection(relative_path.parts):
             continue
         try:
             text = path.read_text(encoding="utf-8")
@@ -113,7 +140,7 @@ def main() -> None:
             continue
         for pattern in SECRET_PATTERNS:
             if pattern.search(text):
-                fail(f"possible credential or private capability URL in {path.relative_to(ROOT)}")
+                fail(f"possible credential or private capability URL in {relative_path}")
 
     print(f"ok: {len(json_files)} JSON files and {len(SKILL_COPIES)} skill copies validated")
 

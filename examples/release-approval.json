@@ -1,0 +1,55 @@
+{
+  "$schema": "../schemas/intervention.schema.json",
+  "title": "Approve release v42?",
+  "summary": "All 18 checks passed. Confirm the production rollout.",
+  "source": "release-agent",
+  "message_id": "example-release-v42-approval",
+  "context_id": "example-release-workflow",
+  "expires_in_seconds": 86400,
+  "a2ui_messages": [
+    {
+      "version": "v0.9.1",
+      "createSurface": {
+        "surfaceId": "release-approval",
+        "catalogId": "https://a2ui.org/specification/v0_9/catalogs/basic/catalog.json",
+        "sendDataModel": true
+      }
+    },
+    {
+      "version": "v0.9.1",
+      "updateComponents": {
+        "surfaceId": "release-approval",
+        "components": [
+          { "id": "root", "component": "Card", "child": "content" },
+          { "id": "content", "component": "Column", "children": ["heading", "checks", "approval", "notes", "actions"] },
+          { "id": "heading", "component": "Text", "text": "Production release", "variant": "h2" },
+          { "id": "checks", "component": "Text", "text": { "path": "/context/checks" } },
+          { "id": "approval", "component": "CheckBox", "label": "I approve this production release", "value": { "path": "/state/approved" } },
+          { "id": "notes", "component": "TextField", "label": "Notes for the agent", "value": { "path": "/state/notes" }, "variant": "longText" },
+          { "id": "actions", "component": "Row", "children": ["approve", "reject"] },
+          { "id": "approve", "component": "Button", "child": "approve-label", "variant": "primary", "action": { "event": { "name": "approve_release", "context": {} } } },
+          { "id": "approve-label", "component": "Text", "text": "Approve release" },
+          { "id": "reject", "component": "Button", "child": "reject-label", "action": { "event": { "name": "reject", "context": {} } } },
+          { "id": "reject-label", "component": "Text", "text": "Reject" }
+        ]
+      }
+    },
+    {
+      "version": "v0.9.1",
+      "updateDataModel": {
+        "surfaceId": "release-approval",
+        "value": {
+          "context": {
+            "version": "v42",
+            "checks": "18/18 synthetic checks passed",
+            "environment": "production"
+          },
+          "state": {
+            "approved": false,
+            "notes": ""
+          }
+        }
+      }
+    }
+  ]
+}

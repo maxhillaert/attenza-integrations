@@ -10,6 +10,8 @@ Thank you for improving Attenza's agent integrations.
 4. Use the canonical endpoint from `config/endpoint.json`; do not create platform-specific service URLs.
 5. Run `mise run check`.
 
+CLI changes must remain dependency-free unless a dependency brings a clear interoperability or security benefit. Add unit tests for token handling, transport parsing, and payload behavior without calling the live service.
+
 For a new platform, add a directory under `platforms/` containing a short README and the smallest supported configuration file. State honestly when a platform requires marketplace review or does not support user-installed remote MCP.
 
 ## Releases
