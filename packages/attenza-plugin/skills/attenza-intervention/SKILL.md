@@ -23,7 +23,7 @@ For time-sensitive input, pass `expires_at` as an absolute timezone-aware ISO 86
 
 Immediately after a successful create, preserve the returned `task.id` and `task.metadata.expiresAt`, stop the gated action, and start polling `get_intervention` with that exact id. Do not finish the agent run merely because creation succeeded, and do not ask the human to repeat their answer in chat.
 
-Poll after 5 seconds, then use bounded backoff up to 30 seconds. Do not busy-loop. Keep polling while the host execution remains active, the task is `TASK_STATE_INPUT_REQUIRED`, and the expiry deadline has not passed. If the host must end before the task is terminal, report the existing task id and deadline so the next run polls that task instead of creating a duplicate.
+Poll after 5 seconds, then use bounded backoff up to 30 seconds. Do not busy-loop. Keep polling while the host execution remains active, the task is `TASK_STATE_INPUT_REQUIRED`, and the expiry deadline has not passed. If the host must end before the task is terminal, preserve the existing `task.id` and deadline so a later or scheduled wake can poll that task instead of creating a duplicate.
 
 Resume only from a terminal task:
 

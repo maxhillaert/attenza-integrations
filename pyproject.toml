@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "attenza-cli"
-version = "0.2.0"
+version = "0.3.0"
 description = "OAuth MCP command-line client for Attenza human decisions"
 readme = "README.md"
 requires-python = ">=3.11"

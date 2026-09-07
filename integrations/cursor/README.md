@@ -4,7 +4,7 @@ Cursor is the first active integration target.
 
 ## Remote MCP test
 
-Add the repository's root [`mcp.json`](../../mcp.json) to Cursor's MCP configuration. It contains only the public endpoint:
+Add [`packages/attenza-plugin/mcp.json`](../../packages/attenza-plugin/mcp.json) to Cursor's MCP configuration. It contains only the public endpoint:
 
 ```json
 {
@@ -25,6 +25,15 @@ Then ask Cursor:
 
 ## Agent Plugin
 
-The repository root is a portable Agent Plugin: [`plugin.json`](../../plugin.json), [`mcp.json`](../../mcp.json), and [`skills/attenza-intervention`](../../skills/attenza-intervention). The skill teaches Cursor to preserve the task id, poll with bounded backoff, honor the expiry deadline, and resume only from the recorded terminal result. There is no separate Cursor copy to keep synchronized.
+[`packages/attenza-plugin`](../../packages/attenza-plugin) is the portable Agent Plugin: [`plugin.json`](../../packages/attenza-plugin/plugin.json), [`mcp.json`](../../packages/attenza-plugin/mcp.json), and [`skills/attenza-intervention`](../../packages/attenza-plugin/skills/attenza-intervention). The skill teaches Cursor to preserve the task id, poll with bounded backoff, honor the expiry deadline, and resume only from the recorded terminal result. There is no separate Cursor copy to keep synchronized.
 
-For local testing, place or symlink this repository at `~/.cursor/plugins/local/attenza`, reload Cursor, then confirm Attenza appears under Customize with one MCP server and one skill. The public [Cursor marketplace submission](https://cursor.com/marketplace/publish) uses this repository URL; see Cursor's [plugin reference](https://cursor.com/docs/reference/plugins) for the review checklist.
+For local testing, symlink or copy **that package directory** (not the repository root) to `~/.cursor/plugins/local/attenza`:
+
+```sh
+mkdir -p ~/.cursor/plugins/local
+ln -sfn /path/to/attenza-integrations/packages/attenza-plugin ~/.cursor/plugins/local/attenza
+```
+
+Reload Cursor, then confirm Attenza appears under Customize with one MCP server and one skill.
+
+Cursor's [plugin reference](https://cursor.com/docs/reference/plugins) documents two marketplace layouts: a repository-root `plugin.json`, or a repo-root `.cursor-plugin/marketplace.json` that points at a subdirectory. This kit uses the subdirectory layout for local testing. A marketplace overlay is a follow-up if catalog submission still requires a repo-root pointer; see the public [Cursor marketplace submission](https://cursor.com/marketplace/publish) form for the current review checklist.

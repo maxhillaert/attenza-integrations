@@ -8,7 +8,7 @@ uv = "0.12.5"
 PYTHONPATH = "src"
 
 [tasks.test]
-description = "Validate the focused integration package and public-repo boundary"
+description = "Validate the plugin package, host docs, and public-repo boundary"
 run = [
   "python scripts/check.py",
   "python -m unittest discover -s tests",
