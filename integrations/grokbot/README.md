@@ -1,18 +1,18 @@
 # GrokBot
 
-GrokBot is the second planned integration target.
-
-The current Grok iOS plugin settings do not expose a field for installing a bespoke remote MCP server. A user-specific URL is not an acceptable publication mechanism, so this repository intentionally does not contain a speculative Grok manifest or a private capability link.
-
-The intended public integration will use the shared OAuth endpoint:
+Attenza works end to end in GrokBot today as a custom OAuth MCP connector. Add the shared endpoint through [Grok connectors](https://grok.com/connectors) using New Connector → Custom:
 
 ```text
 https://staging.attenza.io/mcp
 ```
 
-Next steps:
+The repository root packages the same endpoint with the canonical `attenza-intervention` skill as a portable Agent Plugin. [GrokBot plugin connections](https://cursor.com/help/grok-bot/connect-plugins) use the Cursor account and marketplace available to that account, so publishing this repository through the Cursor marketplace is the route to a one-click GrokBot installation. The shared skill is deliberately not copied into this folder.
 
-1. Identify xAI's supported public plugin submission and manifest format.
-2. Add only the required GrokBot artifact here.
-3. Test OAuth, tool discovery, intervention creation, waiting, and revocation end to end.
-4. Update the status table in the root README with evidence.
+The skill corrects the important behavioral gap in a raw MCP connection: after `create_intervention`, GrokBot must preserve the returned task id and expiry, then poll `get_intervention` until completion, cancellation, or expiry.
+
+Publication checklist:
+
+1. Install this Agent Plugin locally in Cursor and verify its MCP server and skill are discovered.
+2. Submit this public repository at `cursor.com/marketplace/publish`.
+3. After review, install Attenza from GrokBot Plugins and verify the skill-driven polling loop.
+4. Revoke the test grant in Attenza and confirm subsequent calls are denied.

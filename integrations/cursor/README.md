@@ -25,4 +25,6 @@ Then ask Cursor:
 
 ## Agent Plugin
 
-The repository root is also a portable Agent Plugin: [`plugin.json`](../../plugin.json), [`mcp.json`](../../mcp.json), and [`skills/attenza-intervention`](../../skills/attenza-intervention). There is no separate Cursor copy to keep synchronized.
+The repository root is a portable Agent Plugin: [`plugin.json`](../../plugin.json), [`mcp.json`](../../mcp.json), and [`skills/attenza-intervention`](../../skills/attenza-intervention). The skill teaches Cursor to preserve the task id, poll with bounded backoff, honor the expiry deadline, and resume only from the recorded terminal result. There is no separate Cursor copy to keep synchronized.
+
+For local testing, place or symlink this repository at `~/.cursor/plugins/local/attenza`, reload Cursor, then confirm Attenza appears under Customize with one MCP server and one skill. The public [Cursor marketplace submission](https://cursor.com/marketplace/publish) uses this repository URL; see Cursor's [plugin reference](https://cursor.com/docs/reference/plugins) for the review checklist.

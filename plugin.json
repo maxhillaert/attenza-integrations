@@ -1,11 +1,12 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "attenza",
-  "description": "Pause agent work for durable human decisions through Attenza.",
-  "version": "0.1.0",
+  "description": "Pause agent work, poll for durable human decisions, and resume safely through Attenza.",
+  "version": "0.2.0",
   "author": {
     "name": "Max Hillaert"
   },
   "repository": "https://github.com/maxhillaert/attenza-integrations",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": ["human-in-the-loop", "mcp", "a2ui", "approvals"]
 }

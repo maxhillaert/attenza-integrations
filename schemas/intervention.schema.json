@@ -12,11 +12,17 @@
     "source": { "type": "string", "minLength": 1, "maxLength": 120 },
     "message_id": { "type": "string", "minLength": 1, "maxLength": 200 },
     "context_id": { "type": ["string", "null"], "maxLength": 200 },
-    "expires_in_seconds": { "type": "integer", "minimum": 60, "maximum": 2592000 },
+    "expires_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Absolute timezone-aware decision deadline, at most seven days ahead."
+    },
+    "expires_in_seconds": { "type": ["integer", "null"], "minimum": 60, "maximum": 604800 },
     "a2ui_messages": {
       "type": "array",
       "minItems": 3,
       "items": { "type": "object" }
     }
-  }
+  },
+  "not": { "required": ["expires_at", "expires_in_seconds"] }
 }

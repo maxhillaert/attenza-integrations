@@ -4,6 +4,7 @@ import argparse
 import json
 import sys
 import time
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -46,6 +47,19 @@ def _task_state(value: Any) -> str | None:
         return None
     status = task.get("status")
     return str(status.get("state")) if isinstance(status, dict) and status.get("state") else None
+
+
+def _task_expiry(value: Any) -> float | None:
+    if not isinstance(value, dict) or not isinstance(value.get("task"), dict):
+        return None
+    metadata = value["task"].get("metadata")
+    expires_at = metadata.get("expiresAt") if isinstance(metadata, dict) else None
+    if not isinstance(expires_at, str):
+        return None
+    try:
+        return datetime.fromisoformat(expires_at.replace("Z", "+00:00")).timestamp()
+    except ValueError:
+        return None
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -96,14 +110,17 @@ def run(args: argparse.Namespace) -> None:
     elif args.command == "cancel":
         _print(client.call("cancel_intervention", {"task_id": args.task_id}))
     elif args.command == "wait":
-        deadline = time.monotonic() + args.deadline
+        deadline = time.time() + args.deadline
         value: Any = {}
-        while time.monotonic() < deadline:
+        while time.time() < deadline:
             value = client.call("get_intervention", {"task_id": args.task_id})
             if _task_state(value) in TERMINAL_STATES:
                 _print(value)
                 return
-            time.sleep(args.interval)
+            task_expiry = _task_expiry(value)
+            if task_expiry is not None:
+                deadline = min(deadline, task_expiry)
+            time.sleep(max(0, min(args.interval, deadline - time.time())))
         _print(value)
         raise AttenzaError("deadline elapsed before the intervention became terminal")
 
