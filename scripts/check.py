@@ -14,10 +14,20 @@ ENDPOINT = "https://www.attenza.io/mcp"
 FORBIDDEN_PUBLIC_HOST = "staging" + ".attenza.io"
 AGENT_PLUGIN_PLUGIN_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 AGENT_PLUGIN_MCP_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"
-CURSOR_SKILL_NAME = "attenza-intervention"
 CURSOR_MARKETPLACE_SKILLS = "./skills/"
 CURSOR_MARKETPLACE_MCP = "./mcp.json"
-CANONICAL_SKILL = "packages/attenza-plugin/skills/attenza-intervention/SKILL.md"
+CANONICAL_OVERVIEW_SKILL = "packages/attenza-plugin/skills/attenza/SKILL.md"
+CANONICAL_INTERVENTION_SKILL = (
+    "packages/attenza-plugin/skills/attenza-intervention/SKILL.md"
+)
+CANONICAL_SKILLS = (
+    CANONICAL_OVERVIEW_SKILL,
+    CANONICAL_INTERVENTION_SKILL,
+)
+SKILL_NAMES = {
+    CANONICAL_OVERVIEW_SKILL: "attenza",
+    CANONICAL_INTERVENTION_SKILL: "attenza-intervention",
+}
 CANONICAL_MCP = "packages/attenza-plugin/mcp.json"
 CANONICAL_PLUGIN = "packages/attenza-plugin/plugin.json"
 CHATGPT_APP = "packages/attenza-plugin/.app.json"
@@ -41,7 +51,8 @@ REQUIRED = (
     "integrations/grokbot/README.md",
     "integrations/codex/README.md",
     "integrations/claude-code/README.md",
-    CANONICAL_SKILL,
+    CANONICAL_OVERVIEW_SKILL,
+    CANONICAL_INTERVENTION_SKILL,
     "packages/attenza-plugin/skills/attenza-intervention/references/a2ui-authoring.md",
     "packages/attenza-plugin/skills/attenza-intervention/references/decision-design.md",
     "src/attenza_cli/cli.py",
@@ -104,8 +115,12 @@ def main() -> None:
             )
 
     skill_files = [path.relative_to(ROOT).as_posix() for path in tracked_files("SKILL.md")]
-    if skill_files != [CANONICAL_SKILL]:
-        fail(f"skill copies must be exactly {CANONICAL_SKILL}; found {skill_files}")
+    expected_skills = [
+        path.relative_to(ROOT).as_posix()
+        for path in sorted(ROOT / item for item in CANONICAL_SKILLS)
+    ]
+    if skill_files != expected_skills:
+        fail(f"skill copies must be exactly {expected_skills}; found {skill_files}")
 
     mcp_files = [path.relative_to(ROOT).as_posix() for path in tracked_files("mcp.json")]
     if mcp_files != [CANONICAL_MCP]:
@@ -149,23 +164,27 @@ def main() -> None:
     if configured_endpoint != ENDPOINT or configured_transport != "streamable-http":
         fail("plugin MCP manifest does not contain the canonical transport and endpoint")
 
-    skill_text = (ROOT / CANONICAL_SKILL).read_text(encoding="utf-8")
-    if not skill_text.startswith("---"):
-        fail("canonical skill is missing YAML frontmatter")
-    skill_parts = skill_text.split("---", 2)
-    if len(skill_parts) < 3:
-        fail("canonical skill frontmatter is not closed")
-    skill_fields: dict[str, str] = {}
-    for line in skill_parts[1].splitlines():
-        stripped = line.strip()
-        if not stripped or stripped.startswith("#") or ":" not in stripped:
-            continue
-        key, value = stripped.split(":", 1)
-        skill_fields[key.strip()] = value.strip()
-    if skill_fields.get("name") != CURSOR_SKILL_NAME or not skill_fields.get(
-        "description"
-    ):
-        fail("canonical skill frontmatter must declare name and description")
+    for relative_path, expected_name in SKILL_NAMES.items():
+        skill_text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if not skill_text.startswith("---"):
+            fail(f"{relative_path} is missing YAML frontmatter")
+        skill_parts = skill_text.split("---", 2)
+        if len(skill_parts) < 3:
+            fail(f"{relative_path} frontmatter is not closed")
+        skill_fields: dict[str, str] = {}
+        for line in skill_parts[1].splitlines():
+            stripped = line.strip()
+            if not stripped or stripped.startswith("#") or ":" not in stripped:
+                continue
+            key, value = stripped.split(":", 1)
+            skill_fields[key.strip()] = value.strip()
+        if skill_fields.get("name") != expected_name or not skill_fields.get(
+            "description"
+        ):
+            fail(
+                f"{relative_path} frontmatter must declare name "
+                f"{expected_name!r} and description"
+            )
 
     package = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))[
         "project"
@@ -263,7 +282,7 @@ def main() -> None:
                 fail(f"possible credential or private capability URL in {relative_path}")
 
     print(
-        f"ok: {len(json_files)} JSON files, one skill, three host marketplaces, "
+        f"ok: {len(json_files)} JSON files, {len(CANONICAL_SKILLS)} skills, three host marketplaces, "
         f"and {len(integration_names)} focused integrations validated"
     )
 
