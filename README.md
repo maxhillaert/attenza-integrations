@@ -15,7 +15,7 @@ The Attenza application, API implementation, database, deployment, and infrastru
 | Cursor Agent Plugin | [`packages/attenza-plugin`](packages/attenza-plugin) plus a repository [`marketplace.json`](.cursor-plugin/marketplace.json) | Manifest/schema checks; repository discovery wiring | Verify local discovery, then submit the repository to the marketplace |
 | GrokBot custom connector | Shared OAuth endpoint works without a private URL | OAuth, tool discovery, intervention creation, human decision, and result retrieval tested end to end | Retain as the direct integration path |
 | GrokBot plugin | The same Agent Plugin adds polling and expiry behavior to the MCP endpoint | Package validation; raw MCP round trip tested | Publish through the Cursor marketplace and verify catalog installation |
-| Codex | Native [`.codex-plugin`](packages/attenza-plugin/.codex-plugin/plugin.json) manifest and repo marketplace | Manifest validation and repository discovery wiring | Install from the repo marketplace and complete an OAuth round trip |
+| ChatGPT / Codex | Native [`.codex-plugin`](packages/attenza-plugin/.codex-plugin/plugin.json) manifest, registered [`.app.json`](packages/attenza-plugin/.app.json), and repo marketplace | ChatGPT developer-mode OAuth and discovery of all three Attenza actions; repository validation | Install the complete package from the local marketplace and complete an intervention round trip |
 | Claude Code | Native [`.claude-plugin`](packages/attenza-plugin/.claude-plugin/plugin.json) manifest and repo marketplace | Manifest validation and repository discovery wiring | Install from the repo marketplace and complete an OAuth round trip |
 | Attenza CLI | Browser OAuth, create, get, wait, cancel, and token refresh | Seven unit tests, clean wheel build, isolated install, and live production DCR + PKCE + token + authenticated `tools/list` smoke test | Complete a live create/wait intervention round trip |
 
@@ -27,11 +27,11 @@ Cursor and GrokBot remain the end-to-end tested hosts. Codex and Claude Code now
 | --- | --- |
 | [`packages/attenza-plugin`](packages/attenza-plugin) | Portable Agent Plugin: one manifest, one MCP config, one skill, and its shared A2UI authoring references. Hosts consume this directory. |
 | [`.cursor-plugin`](.cursor-plugin) | Cursor repository marketplace pointing at the shared package |
-| [`.agents/plugins`](.agents/plugins) | Codex repository marketplace pointing at the shared package |
+| [`.agents/plugins`](.agents/plugins) | ChatGPT/Codex repository marketplace pointing at the shared package |
 | [`.claude-plugin`](.claude-plugin) | Claude Code repository marketplace pointing at the shared package |
 | [`integrations/cursor`](integrations/cursor) | Human-facing Cursor setup and local test notes; not agent instructions |
 | [`integrations/grokbot`](integrations/grokbot) | Human-facing GrokBot publication status and test notes; not agent instructions |
-| [`integrations/codex`](integrations/codex) | Codex / Agent Plugins install notes |
+| [`integrations/codex`](integrations/codex) | ChatGPT/Codex installation and test notes |
 | [`integrations/claude-code`](integrations/claude-code) | Planned Claude Code overlay notes |
 | [`src/attenza_cli`](src/attenza_cli) | The dependency-free `attenza` command-line client |
 | [`examples`](examples) | Synthetic intervention payloads for testing |
