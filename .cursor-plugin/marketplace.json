@@ -18,7 +18,9 @@
       "repository": "https://github.com/maxhillaert/attenza-integrations",
       "license": "MIT",
       "keywords": ["human-in-the-loop", "mcp", "a2ui", "approvals"],
-      "category": "Productivity"
+      "category": "Productivity",
+      "skills": "./skills/",
+      "mcpServers": "./mcp.json"
     }
   ]
 }

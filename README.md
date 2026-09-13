@@ -12,14 +12,14 @@ The Attenza application, API implementation, database, deployment, and infrastru
 | Integration | Available now | Currently tested | Next step |
 | --- | --- | --- | --- |
 | Cursor remote MCP | [`packages/attenza-plugin/mcp.json`](packages/attenza-plugin/mcp.json) points to the public OAuth endpoint | OAuth and MCP contract tested by Attenza; repository validation | Complete a real Cursor intervention round trip |
-| Cursor Agent Plugin | [`packages/attenza-plugin`](packages/attenza-plugin) plus a repository [`marketplace.json`](.cursor-plugin/marketplace.json) | Manifest/schema checks; repository discovery wiring | Verify local discovery, then submit the repository to the marketplace |
+| Cursor Agent Plugin | [`packages/attenza-plugin`](packages/attenza-plugin) plus a repository [`marketplace.json`](.cursor-plugin/marketplace.json) | Manifest/schema checks; local-test layout and marketplace skill/MCP paths | Desktop Customize **or** a team-marketplace install; then public marketplace submission |
 | GrokBot custom connector | Shared OAuth endpoint works without a private URL | OAuth, tool discovery, intervention creation, human decision, and result retrieval tested end to end | Retain as the direct integration path |
-| GrokBot plugin | The same Agent Plugin adds polling and expiry behavior to the MCP endpoint | Package validation; raw MCP round trip tested | Publish through the Cursor marketplace and verify catalog installation |
+| GrokBot plugin | The same Agent Plugin adds polling and expiry behavior to the MCP endpoint | Package validation; raw MCP round trip tested | Import this repo as a Cursor team marketplace (or wait for public listing) and install from GrokBot Plugins |
 | ChatGPT / Codex | Native [`.codex-plugin`](packages/attenza-plugin/.codex-plugin/plugin.json) manifest, registered [`.app.json`](packages/attenza-plugin/.app.json), and repo marketplace | ChatGPT developer-mode OAuth and discovery of all three Attenza actions; repository validation | Install the complete package from the local marketplace and complete an intervention round trip |
 | Claude Code | Native [`.claude-plugin`](packages/attenza-plugin/.claude-plugin/plugin.json) manifest and repo marketplace | Manifest validation and repository discovery wiring | Install from the repo marketplace and complete an OAuth round trip |
 | Attenza CLI | Browser OAuth, create, get, wait, cancel, and token refresh | Seven unit tests, clean wheel build, isolated install, and live production DCR + PKCE + token + authenticated `tools/list` smoke test | Complete a live create/wait intervention round trip |
 
-Cursor and GrokBot remain the end-to-end tested hosts. Codex and Claude Code now have native install packages; their live OAuth round trips remain to be completed.
+Cursor and GrokBot remain the end-to-end tested hosts. ChatGPT developer-mode OAuth and tool discovery are recorded; a ChatGPT/Codex package install plus intervention round trip, and Claude Code's live OAuth round trip, remain.
 
 ## What every folder is for
 
@@ -69,7 +69,7 @@ mise install
 mise run check
 ```
 
-For a local Cursor plugin test, symlink or copy the portable package rather than the repository root:
+For a desktop Cursor plugin test, symlink or copy the portable package rather than the repository root. Desktop Cursor loads that folder from `~/.cursor/plugins/local`. GrokBot and Cloud Agents do not; they install from a Cursor marketplace or an attached MCP server. See [integrations/cursor](integrations/cursor) and [integrations/grokbot](integrations/grokbot).
 
 ```sh
 mkdir -p ~/.cursor/plugins/local
