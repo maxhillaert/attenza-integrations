@@ -10,7 +10,7 @@
       "name": "attenza",
       "source": "./packages/attenza-plugin",
       "description": "Pause agent work, collect durable human decisions, and resume safely.",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "author": {
         "name": "Max Hillaert"
       },

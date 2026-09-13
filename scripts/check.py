@@ -219,7 +219,8 @@ def main() -> None:
     app_id = app_mapping.get("id")
     if (
         not isinstance(app_id, str)
-        or not re.fullmatch(r"plugin_asdk_app_[a-f0-9]{32}", app_id)
+        or not re.fullmatch(r"asdk_app_[a-f0-9]{32}", app_id)
+        or app_mapping.get("required") is not True
         or codex_plugin.get("apps") != "./.app.json"
     ):
         fail("ChatGPT app mapping is missing or has drifted from the Codex manifest")
