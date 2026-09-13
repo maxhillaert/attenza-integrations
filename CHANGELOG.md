@@ -7,6 +7,13 @@
 - Documented how an Individual GrokBot account can teach the canonical intervention skill after a custom MCP connector is registered.
 - Pointed the Cursor repository marketplace at the shared `skills/` directory and `mcp.json` so nested-package discovery does not depend on a Cursor-native plugin manifest.
 
+## [0.6.0] - 2026-09-13
+
+- Registered the production Attenza OAuth MCP endpoint for ChatGPT developer-mode testing.
+- Added the ChatGPT app mapping to the shared plugin package without duplicating the MCP configuration or skill.
+- Verified OAuth and discovery of `create_intervention`, `get_intervention`, and `cancel_intervention` in ChatGPT.
+- Added repository checks for the required ChatGPT app mapping and OpenAI manifest wiring.
+
 ## [0.5.0] - 2026-09-08
 
 - Replaced every public staging hostname with the canonical production origin, `https://www.attenza.io`.
@@ -44,7 +51,8 @@
 - Added focused Cursor integration instructions.
 - Recorded GrokBot as the next planned public integration.
 
-[Unreleased]: https://github.com/maxhillaert/attenza-integrations/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/maxhillaert/attenza-integrations/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.2.0...v0.3.0
