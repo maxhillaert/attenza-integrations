@@ -16,6 +16,7 @@ AGENT_PLUGIN_MCP_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/mcp.schema.js
 CANONICAL_SKILL = "packages/attenza-plugin/skills/attenza-intervention/SKILL.md"
 CANONICAL_MCP = "packages/attenza-plugin/mcp.json"
 CANONICAL_PLUGIN = "packages/attenza-plugin/plugin.json"
+CHATGPT_APP = "packages/attenza-plugin/.app.json"
 CODEX_PLUGIN = "packages/attenza-plugin/.codex-plugin/plugin.json"
 CLAUDE_PLUGIN = "packages/attenza-plugin/.claude-plugin/plugin.json"
 CURSOR_MARKETPLACE = ".cursor-plugin/marketplace.json"
@@ -25,6 +26,7 @@ PLUGIN_ROOT = "packages/attenza-plugin"
 REQUIRED = (
     CANONICAL_PLUGIN,
     CANONICAL_MCP,
+    CHATGPT_APP,
     CODEX_PLUGIN,
     CLAUDE_PLUGIN,
     CURSOR_MARKETPLACE,
@@ -148,6 +150,7 @@ def main() -> None:
     ]
     plugin = load_json(CANONICAL_PLUGIN)
     codex_plugin = load_json(CODEX_PLUGIN)
+    chatgpt_app = load_json(CHATGPT_APP)
     claude_plugin = load_json(CLAUDE_PLUGIN)
     source_version = re.search(
         r'^__version__ = "([^"]+)"$',
@@ -165,6 +168,18 @@ def main() -> None:
         or source_version.group(1) != package["version"]
     ):
         fail("plugin identity or version has drifted from the CLI package")
+
+    try:
+        app_mapping = chatgpt_app["apps"]["attenza"]
+    except (KeyError, TypeError) as exc:
+        fail(f"ChatGPT app mapping has an invalid shape: {exc}")
+    app_id = app_mapping.get("id")
+    if (
+        not isinstance(app_id, str)
+        or not re.fullmatch(r"plugin_asdk_app_[a-f0-9]{32}", app_id)
+        or codex_plugin.get("apps") != "./.app.json"
+    ):
+        fail("ChatGPT app mapping is missing or has drifted from the Codex manifest")
 
     for host, manifest in (("Codex", codex_plugin), ("Claude Code", claude_plugin)):
         try:

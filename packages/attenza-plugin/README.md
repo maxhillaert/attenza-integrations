@@ -10,9 +10,10 @@ This package is the only copy of the skill and the only portable MCP configurati
 | --- | --- |
 | [`plugin.json`](plugin.json) | Agent Plugins 1.0 identity |
 | [`mcp.json`](mcp.json) | Agent Plugins 1.0 public OAuth MCP endpoint |
+| [`.app.json`](.app.json) | ChatGPT's registered development-app mapping for the same public MCP endpoint |
 | [`skills/attenza-intervention/SKILL.md`](skills/attenza-intervention/SKILL.md) | Shared agent workflow: when to pause, how to poll, and how to resume |
 | [`skills/attenza-intervention/references`](skills/attenza-intervention/references) | Shared A2UI schema profile and decision-interface guidance loaded by the skill when authoring a surface |
-| [`.codex-plugin/plugin.json`](.codex-plugin/plugin.json) | Codex-native discovery and MCP wiring |
+| [`.codex-plugin/plugin.json`](.codex-plugin/plugin.json) | ChatGPT/Codex-native discovery, app mapping, and MCP wiring |
 | [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) | Claude Code-native discovery and MCP wiring |
 
 The MCP URL is `https://www.attenza.io/mcp`. Authentication is OAuth. Do not add API keys, bearer tokens, or private capability URLs.
@@ -25,7 +26,7 @@ Point the host at this package directory, not the repository root.
 | --- | --- |
 | [Cursor](../../integrations/cursor) | Symlink or copy this folder to `~/.cursor/plugins/local/attenza` |
 | [GrokBot](../../integrations/grokbot) | Same Cursor plugin; GrokBot installs from the Cursor account marketplace |
-| [Codex](../../integrations/codex) | Install `attenza` from the repository's `.agents/plugins/marketplace.json` |
+| [ChatGPT and Codex](../../integrations/codex) | Install `attenza` from the repository's `.agents/plugins/marketplace.json` |
 | [Claude Code](../../integrations/claude-code) | Install `attenza` from the repository's `.claude-plugin/marketplace.json` |
 
 Vendor-specific setup lives under `integrations/<host>/`. The native manifests contain only discovery metadata and the host-specific spelling of the public MCP connection; shared behavior stays in the single skill.

@@ -1,6 +1,6 @@
 {
   "name": "attenza",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Pause agent work, collect durable human decisions, and resume safely through Attenza.",
   "author": {
     "name": "Max Hillaert"
@@ -10,6 +10,7 @@
   "license": "MIT",
   "keywords": ["human-in-the-loop", "mcp", "a2ui", "approvals"],
   "skills": "./skills/",
+  "apps": "./.app.json",
   "mcpServers": {
     "attenza": {
       "type": "http",
