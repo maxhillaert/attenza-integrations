@@ -6,16 +6,20 @@ This file is human setup and verification documentation; Cursor does not load it
 
 ## How a Cursor test works
 
-Cursor can load Attenza in two ways. They are not equivalent.
+Cursor can load Attenza in four ways. They are not equivalent.
 
 | Setup | What Cursor loads | What you can prove |
 | --- | --- | --- |
 | Remote MCP only | The `attenza` server at `https://www.attenza.io/mcp` | OAuth, tool list, create/get/cancel |
-| Local Agent Plugin | The same MCP server **plus** the `attenza-intervention` skill | Customize discovery, OAuth, then the polling and expiry workflow |
+| Cloud Agent MCP | The same server attached under [cursor.com/agents](https://cursor.com/agents) | The same MCP contract from a Cloud Agent VM |
+| Desktop local plugin | MCP **plus** the `attenza-intervention` skill from `~/.cursor/plugins/local` | IDE Customize discovery |
+| Marketplace plugin | MCP **plus** the skill from a team or public catalog | GrokBot Plugins and other cloud hosts |
 
 The installable plugin is [`packages/attenza-plugin`](../../packages/attenza-plugin), not this repository root. Cursor identifies an [Agent Plugin](https://cursor.com/docs/plugins.md) by a root `plugin.json` sitting next to `mcp.json` and `skills/`. Those files live only under that package.
 
-Desktop Cursor discovers in-development plugins from `~/.cursor/plugins/local/<name>/`. [Cloud Agents](https://cursor.com/docs/cloud-agent) do not read that folder; they only see MCP servers connected on the account or environment. A Cloud Agent can exercise tools after OAuth, but it cannot verify that Customize discovered the plugin and skill.
+Desktop Cursor discovers in-development plugins from `~/.cursor/plugins/local/<name>/`. That folder is IDE-only.
+
+[Cloud Agents](https://cursor.com/docs/cloud-agent) and [GrokBot](https://cursor.com/help/grok-bot/connect-plugins) consume Cursor's **cloud catalog**, not the local folder and not a repo checkout. A Cloud Agent can call MCP servers you attach under [cursor.com/agents](https://cursor.com/agents). GrokBot can install the plugin only after it appears in a marketplace that account can see (team import of this repo, or the public Cursor Marketplace). Checking out `packages/attenza-plugin` in a Cloud Agent VM does not install it. See [`integrations/grokbot`](../grokbot) for that path.
 
 ## Local Agent Plugin test
 
@@ -68,4 +72,4 @@ Enable `attenza`, complete the browser OAuth flow, and verify the tools `create_
 
 Cursor's [plugin reference](https://cursor.com/docs/reference/plugins) requires a repository-root marketplace manifest when a plugin lives in a subdirectory. This repository provides [`.cursor-plugin/marketplace.json`](../../.cursor-plugin/marketplace.json), which points discovery at `packages/attenza-plugin` and names the shared `skills/` and `mcp.json` paths. That file is for installing this repo as a Cursor marketplace (team import or public submission). It is not a substitute for the `~/.cursor/plugins/local` folder during first local discovery.
 
-Submit the public repository URL through the [Cursor marketplace form](https://cursor.com/marketplace/publish) after the local Customize check succeeds.
+To test the plugin in GrokBot or another cloud host before public review, import this repository as a [team marketplace](https://cursor.com/docs/plugins.md#add-a-team-marketplace) and install Attenza from that catalog. Submit the public repository URL through the [Cursor marketplace form](https://cursor.com/marketplace/publish) when you want it listed for every Cursor account.

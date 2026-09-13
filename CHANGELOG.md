@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 - Documented how Cursor local plugin testing actually works: desktop `~/.cursor/plugins/local` discovery versus Cloud Agents, Team/Enterprise local-import policy, and marketplace precedence.
+- Documented that GrokBot and Cloud Agents consume the Cursor cloud catalog, not the desktop local-plugin folder, and that a team-marketplace import of this repo is the unpublished cloud plugin test.
 - Pointed the Cursor repository marketplace at the shared `skills/` directory and `mcp.json` so nested-package discovery does not depend on a Cursor-native plugin manifest.
 
 ## [0.5.0] - 2026-09-08

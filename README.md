@@ -12,9 +12,9 @@ The Attenza application, API implementation, database, deployment, and infrastru
 | Integration | Available now | Currently tested | Next step |
 | --- | --- | --- | --- |
 | Cursor remote MCP | [`packages/attenza-plugin/mcp.json`](packages/attenza-plugin/mcp.json) points to the public OAuth endpoint | OAuth and MCP contract tested by Attenza; repository validation | Complete a real Cursor intervention round trip |
-| Cursor Agent Plugin | [`packages/attenza-plugin`](packages/attenza-plugin) plus a repository [`marketplace.json`](.cursor-plugin/marketplace.json) | Manifest/schema checks; local-test layout and marketplace skill/MCP paths | Verify desktop Customize discovery, then submit the repository to the marketplace |
+| Cursor Agent Plugin | [`packages/attenza-plugin`](packages/attenza-plugin) plus a repository [`marketplace.json`](.cursor-plugin/marketplace.json) | Manifest/schema checks; local-test layout and marketplace skill/MCP paths | Desktop Customize **or** a team-marketplace install; then public marketplace submission |
 | GrokBot custom connector | Shared OAuth endpoint works without a private URL | OAuth, tool discovery, intervention creation, human decision, and result retrieval tested end to end | Retain as the direct integration path |
-| GrokBot plugin | The same Agent Plugin adds polling and expiry behavior to the MCP endpoint | Package validation; raw MCP round trip tested | Publish through the Cursor marketplace and verify catalog installation |
+| GrokBot plugin | The same Agent Plugin adds polling and expiry behavior to the MCP endpoint | Package validation; raw MCP round trip tested | Import this repo as a Cursor team marketplace (or wait for public listing) and install from GrokBot Plugins |
 | Codex | Native [`.codex-plugin`](packages/attenza-plugin/.codex-plugin/plugin.json) manifest and repo marketplace | Manifest validation and repository discovery wiring | Install from the repo marketplace and complete an OAuth round trip |
 | Claude Code | Native [`.claude-plugin`](packages/attenza-plugin/.claude-plugin/plugin.json) manifest and repo marketplace | Manifest validation and repository discovery wiring | Install from the repo marketplace and complete an OAuth round trip |
 | Attenza CLI | Browser OAuth, create, get, wait, cancel, and token refresh | Seven unit tests, clean wheel build, isolated install, and live production DCR + PKCE + token + authenticated `tools/list` smoke test | Complete a live create/wait intervention round trip |
@@ -69,7 +69,7 @@ mise install
 mise run check
 ```
 
-For a local Cursor plugin test, symlink or copy the portable package rather than the repository root. Desktop Cursor loads that folder from `~/.cursor/plugins/local`; Cloud Agents do not. See [integrations/cursor](integrations/cursor) for the Customize, OAuth, and intervention checks.
+For a desktop Cursor plugin test, symlink or copy the portable package rather than the repository root. Desktop Cursor loads that folder from `~/.cursor/plugins/local`. GrokBot and Cloud Agents do not; they install from a Cursor marketplace or an attached MCP server. See [integrations/cursor](integrations/cursor) and [integrations/grokbot](integrations/grokbot).
 
 ```sh
 mkdir -p ~/.cursor/plugins/local
