@@ -26,6 +26,27 @@ https://www.attenza.io/mcp
 
 Complete browser OAuth, confirm `create_intervention`, `get_intervention`, and `cancel_intervention`, then run one intervention round trip. This proves the OAuth MCP contract. It does not load the skill, so the bot may not poll or honor expiry on its own.
 
+## After the MCP connector is connected
+
+A custom connector has no skill URL. GrokBot does not read `packages/attenza-plugin/skills/` from GitHub because you registered `https://www.attenza.io/mcp`. The skill is bundled with the plugin, not with the MCP endpoint.
+
+On an Individual plan, teach GrokBot the canonical skill as a [GrokBot skill](https://cursor.com/docs/grok-bot/work.md#skills-and-routines) (this is not a second copy in this repository):
+
+1. In a Bot conversation, point it at the live files (or attach them):
+   - [`SKILL.md`](https://github.com/maxhillaert/attenza-integrations/blob/main/packages/attenza-plugin/skills/attenza-intervention/SKILL.md)
+   - [`references/a2ui-authoring.md`](https://github.com/maxhillaert/attenza-integrations/blob/main/packages/attenza-plugin/skills/attenza-intervention/references/a2ui-authoring.md)
+   - [`references/decision-design.md`](https://github.com/maxhillaert/attenza-integrations/blob/main/packages/attenza-plugin/skills/attenza-intervention/references/decision-design.md)
+2. Ask:
+
+   > Save these as a skill named `attenza-intervention`. Use it whenever you call the connected Attenza tools `create_intervention`, `get_intervention`, or `cancel_intervention`. Follow the skill exactly: keep `task.id`, poll with bounded backoff, honor expiry, and resume only from a terminal result.
+
+3. Enable that skill for the Bot under **Settings → Plugins → Yours** if it does not appear when you type `/`.
+4. For standing use, put a one-line pointer in the Bot description: when a human decision is required, run `/attenza-intervention` and the connected Attenza tools; do not ask the human to restate the answer in chat.
+
+You can instead clone this repository into the GrokBot computer's `/workspace` and tell the Bot to read `packages/attenza-plugin/skills/attenza-intervention/SKILL.md` before creating an intervention. That is a workspace file, not catalog discovery; it will not survive a computer reset unless you recopy it.
+
+Do not paste a second `SKILL.md` into this repo for GrokBot. When the plugin is later installed from a marketplace, uninstall or ignore the hand-taught skill so the catalog copy is the only behavior source.
+
 ## Cloud plugin test (MCP plus skill)
 
 [`packages/attenza-plugin`](../../packages/attenza-plugin) is the same Agent Plugin GrokBot will install once it appears in a Cursor marketplace. [`.cursor-plugin/marketplace.json`](../../.cursor-plugin/marketplace.json) is the discovery file Cursor indexes.
