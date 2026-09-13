@@ -5,7 +5,7 @@
 ## [0.7.0] - 2026-09-13
 
 - Added the Attenza overview skill so hosts know when to use durable `decide` / `clarify` versus chat, and that `inform` is unavailable until in-product notify policy exists.
-- Hardened `attenza-intervention` with stronger when-not rules and a short host-wake note aligned with the overview skill.
+- Hardened `attenza-intervention`: decide-only when-not rules, a never-wait-forever `expiresAt` protocol, a shared wait contract (persist id, stop side effects, backoff poll, chat-first cancel, no duplicate create), and per-host wait adapters.
 - Documented how Cursor local plugin testing actually works: desktop `~/.cursor/plugins/local` discovery versus Cloud Agents, Team/Enterprise local-import policy, and marketplace precedence.
 - Documented that GrokBot and Cloud Agents consume the Cursor cloud catalog, not the desktop local-plugin folder, and that a team-marketplace import of this repo is the unpublished cloud plugin test.
 - Documented how an Individual GrokBot account can teach the canonical intervention skill after a custom MCP connector is registered.

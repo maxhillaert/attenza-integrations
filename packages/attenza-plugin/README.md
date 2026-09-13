@@ -12,7 +12,7 @@ This package is the only copy of the skills and the only portable MCP configurat
 | [`mcp.json`](mcp.json) | Agent Plugins 1.0 public OAuth MCP endpoint |
 | [`.app.json`](.app.json) | ChatGPT's registered development-app mapping for the same public MCP endpoint |
 | [`skills/attenza/SKILL.md`](skills/attenza/SKILL.md) | When to use Attenza (`decide` / `clarify`) versus chat; `inform` is unavailable until in-product notify policy |
-| [`skills/attenza-intervention/SKILL.md`](skills/attenza-intervention/SKILL.md) | Shared agent workflow: when to pause, how to poll, and how to resume |
+| [`skills/attenza-intervention/SKILL.md`](skills/attenza-intervention/SKILL.md) | Shared decide workflow: create, wait contract, host adapters, poll, expiry, and resume |
 | [`skills/attenza-intervention/references`](skills/attenza-intervention/references) | Shared A2UI schema profile and decision-interface guidance loaded by the skill when authoring a surface |
 | [`.codex-plugin/plugin.json`](.codex-plugin/plugin.json) | ChatGPT/Codex-native discovery, app mapping, and MCP wiring |
 | [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) | Claude Code-native discovery and MCP wiring |
@@ -34,7 +34,7 @@ Vendor-specific setup lives under `integrations/<host>/`. The native manifests c
 
 ## Where guidance belongs
 
-- Put behavior that every agent should follow in the shared skills or their references. When-to-escalate guidance belongs in `skills/attenza`. A2UI construction, decision design, polling, expiry, and terminal-result handling belong in `skills/attenza-intervention`.
+- Put behavior that every agent should follow in the shared skills or their references. When-to-escalate guidance belongs in `skills/attenza`. A2UI construction, decision design, wait contract, host wait adapters, polling, expiry, and terminal-result handling belong in `skills/attenza-intervention`.
 - Put human-facing installation, publication, and host verification steps in `integrations/<host>/README.md`. Hosts do not load these README files as agent instructions.
-- Add a host-specific skill reference only when that host requires genuinely different runtime behavior. Link it conditionally from the shared skill; do not copy the whole skill into a host folder.
+- Add a host-specific skill reference only when that host requires genuinely different runtime behavior. Link it conditionally from the shared skill; do not copy the whole skill into a host folder. Host wait adapters for `decide` already live in `skills/attenza-intervention`; do not duplicate them under `integrations/`.
 - Keep discovery-only differences in the native manifest or marketplace file that requires them.
