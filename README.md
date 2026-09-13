@@ -12,7 +12,7 @@ The Attenza application, API implementation, database, deployment, and infrastru
 | Integration | Available now | Currently tested | Next step |
 | --- | --- | --- | --- |
 | Cursor remote MCP | [`packages/attenza-plugin/mcp.json`](packages/attenza-plugin/mcp.json) points to the public OAuth endpoint | OAuth and MCP contract tested by Attenza; repository validation | Complete a real Cursor intervention round trip |
-| Cursor Agent Plugin | [`packages/attenza-plugin`](packages/attenza-plugin) plus a repository [`marketplace.json`](.cursor-plugin/marketplace.json) | Manifest/schema checks; repository discovery wiring | Verify local discovery, then submit the repository to the marketplace |
+| Cursor Agent Plugin | [`packages/attenza-plugin`](packages/attenza-plugin) plus a repository [`marketplace.json`](.cursor-plugin/marketplace.json) | Manifest/schema checks; local-test layout and marketplace skill/MCP paths | Verify desktop Customize discovery, then submit the repository to the marketplace |
 | GrokBot custom connector | Shared OAuth endpoint works without a private URL | OAuth, tool discovery, intervention creation, human decision, and result retrieval tested end to end | Retain as the direct integration path |
 | GrokBot plugin | The same Agent Plugin adds polling and expiry behavior to the MCP endpoint | Package validation; raw MCP round trip tested | Publish through the Cursor marketplace and verify catalog installation |
 | Codex | Native [`.codex-plugin`](packages/attenza-plugin/.codex-plugin/plugin.json) manifest and repo marketplace | Manifest validation and repository discovery wiring | Install from the repo marketplace and complete an OAuth round trip |
@@ -69,7 +69,7 @@ mise install
 mise run check
 ```
 
-For a local Cursor plugin test, symlink or copy the portable package rather than the repository root:
+For a local Cursor plugin test, symlink or copy the portable package rather than the repository root. Desktop Cursor loads that folder from `~/.cursor/plugins/local`; Cloud Agents do not. See [integrations/cursor](integrations/cursor) for the Customize, OAuth, and intervention checks.
 
 ```sh
 mkdir -p ~/.cursor/plugins/local

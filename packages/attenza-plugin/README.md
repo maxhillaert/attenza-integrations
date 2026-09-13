@@ -23,7 +23,7 @@ Point the host at this package directory, not the repository root.
 
 | Host | Documented install path |
 | --- | --- |
-| [Cursor](../../integrations/cursor) | Symlink or copy this folder to `~/.cursor/plugins/local/attenza` |
+| [Cursor](../../integrations/cursor) | Symlink or copy this folder to `~/.cursor/plugins/local/attenza`. Desktop Cursor loads that path; Cloud Agents do not. |
 | [GrokBot](../../integrations/grokbot) | Same Cursor plugin; GrokBot installs from the Cursor account marketplace |
 | [Codex](../../integrations/codex) | Install `attenza` from the repository's `.agents/plugins/marketplace.json` |
 | [Claude Code](../../integrations/claude-code) | Install `attenza` from the repository's `.claude-plugin/marketplace.json` |

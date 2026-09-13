@@ -12,7 +12,11 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 ENDPOINT = "https://www.attenza.io/mcp"
 FORBIDDEN_PUBLIC_HOST = "staging" + ".attenza.io"
+AGENT_PLUGIN_PLUGIN_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
 AGENT_PLUGIN_MCP_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"
+CURSOR_SKILL_NAME = "attenza-intervention"
+CURSOR_MARKETPLACE_SKILLS = "./skills/"
+CURSOR_MARKETPLACE_MCP = "./mcp.json"
 CANONICAL_SKILL = "packages/attenza-plugin/skills/attenza-intervention/SKILL.md"
 CANONICAL_MCP = "packages/attenza-plugin/mcp.json"
 CANONICAL_PLUGIN = "packages/attenza-plugin/plugin.json"
@@ -143,6 +147,24 @@ def main() -> None:
     if configured_endpoint != ENDPOINT or configured_transport != "streamable-http":
         fail("plugin MCP manifest does not contain the canonical transport and endpoint")
 
+    skill_text = (ROOT / CANONICAL_SKILL).read_text(encoding="utf-8")
+    if not skill_text.startswith("---"):
+        fail("canonical skill is missing YAML frontmatter")
+    skill_parts = skill_text.split("---", 2)
+    if len(skill_parts) < 3:
+        fail("canonical skill frontmatter is not closed")
+    skill_fields: dict[str, str] = {}
+    for line in skill_parts[1].splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#") or ":" not in stripped:
+            continue
+        key, value = stripped.split(":", 1)
+        skill_fields[key.strip()] = value.strip()
+    if skill_fields.get("name") != CURSOR_SKILL_NAME or not skill_fields.get(
+        "description"
+    ):
+        fail("canonical skill frontmatter must declare name and description")
+
     package = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))[
         "project"
     ]
@@ -154,6 +176,8 @@ def main() -> None:
         (ROOT / "src/attenza_cli/__init__.py").read_text(encoding="utf-8"),
         re.MULTILINE,
     )
+    if plugin.get("$schema") != AGENT_PLUGIN_PLUGIN_SCHEMA:
+        fail("plugin identity manifest does not target Agent Plugins 1.0")
     if (
         plugin.get("name") != "attenza"
         or plugin.get("version") != package["version"]
@@ -186,6 +210,8 @@ def main() -> None:
     if (
         cursor_entry.get("name") != "attenza"
         or cursor_entry.get("source") != PLUGIN_ROOT
+        or cursor_entry.get("skills") != CURSOR_MARKETPLACE_SKILLS
+        or cursor_entry.get("mcpServers") != CURSOR_MARKETPLACE_MCP
     ):
         fail("Cursor marketplace does not point at the shared plugin package")
     codex_source = codex_entry.get("source")
