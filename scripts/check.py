@@ -115,7 +115,10 @@ def main() -> None:
             )
 
     skill_files = [path.relative_to(ROOT).as_posix() for path in tracked_files("SKILL.md")]
-    expected_skills = sorted(CANONICAL_SKILLS)
+    expected_skills = [
+        path.relative_to(ROOT).as_posix()
+        for path in sorted(ROOT / item for item in CANONICAL_SKILLS)
+    ]
     if skill_files != expected_skills:
         fail(f"skill copies must be exactly {expected_skills}; found {skill_files}")
 
