@@ -13,7 +13,19 @@ The connection needs `tasks:create` to post and `tasks:read` to wait for the ans
 
 ## Create
 
-Create an intervention only when work is genuinely blocked on a human decision. Put evidence and constraints in immutable `/context`; put only human-editable values under `/state`. Author only official A2UI v0.9/v0.9.1 Basic Catalog messages. Never supply HTML, JavaScript, CSS, URLs, classes, expressions, inline catalogs, or executable content.
+Create an intervention only when work is genuinely blocked on a human decision. Treat missing-input `clarify` as this same wait-for-decision path until a dedicated skill exists.
+
+Do not create an intervention for:
+
+- Progress updates, status, or "still working"
+- The agent's internal plan, hypotheses, or chain-of-thought
+- Routine confirmations the user already delegated in this session
+- Nice-to-know FYIs (deploy notes, trivia, "heads up") — that is `inform`, which is disabled until notify policy exists in Attenza
+- Questions that belong in the current chat because no durable handoff is needed
+
+If unsure, prefer chat. Read the `attenza` overview skill when choosing among modes.
+
+Put evidence and constraints in immutable `/context`; put only human-editable values under `/state`. Author only official A2UI v0.9/v0.9.1 Basic Catalog messages. Never supply HTML, JavaScript, CSS, URLs, classes, expressions, inline catalogs, or executable content.
 
 Before authoring a surface, read:
 
@@ -28,7 +40,9 @@ For time-sensitive input, pass `expires_at` as an absolute timezone-aware ISO 86
 
 Immediately after a successful create, preserve the returned `task.id` and `task.metadata.expiresAt`, stop the gated action, and start polling `get_intervention` with that exact id. Do not finish the agent run merely because creation succeeded, and do not ask the human to repeat their answer in chat.
 
-Poll after 5 seconds, then use bounded backoff up to 30 seconds. Do not busy-loop. Keep polling while the host execution remains active, the task is `TASK_STATE_INPUT_REQUIRED`, and the expiry deadline has not passed. If the host must end before the task is terminal, preserve the existing `task.id` and deadline so a later or scheduled wake can poll that task instead of creating a duplicate.
+Poll after 5 seconds, then use bounded backoff up to 30 seconds. Do not busy-loop. Keep polling while the host execution remains active, the task is `TASK_STATE_INPUT_REQUIRED`, and the expiry deadline has not passed.
+
+On long-lived hosts (for example Grok Bot), schedule quiet follow-up wakes to poll instead of busy-waiting the whole turn. On one-shot or short hosts, preserve `task.id` and `expiresAt` and arrange a later wake or tell the user the decision is waiting in Attenza. If the host must end before the task is terminal, keep the existing `task.id` and deadline so a later or scheduled wake can poll that task instead of creating a duplicate.
 
 Resume only from a terminal task:
 

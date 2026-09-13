@@ -25,7 +25,7 @@ Cursor and GrokBot remain the end-to-end tested hosts. ChatGPT developer-mode OA
 
 | Path | Why it exists |
 | --- | --- |
-| [`packages/attenza-plugin`](packages/attenza-plugin) | Portable Agent Plugin: one manifest, one MCP config, one skill, and its shared A2UI authoring references. Hosts consume this directory. |
+| [`packages/attenza-plugin`](packages/attenza-plugin) | Portable Agent Plugin: one manifest, one MCP config, shared skills, and A2UI authoring references. Hosts consume this directory. |
 | [`.cursor-plugin`](.cursor-plugin) | Cursor repository marketplace pointing at the shared package |
 | [`.agents/plugins`](.agents/plugins) | ChatGPT/Codex repository marketplace pointing at the shared package |
 | [`.claude-plugin`](.claude-plugin) | Claude Code repository marketplace pointing at the shared package |
