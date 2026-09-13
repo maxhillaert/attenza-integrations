@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-09-13
+
+- Corrected the ChatGPT app mapping to use the underlying `asdk_app_...` identifier and require that app when installing the complete plugin.
+- Documented private personal-local and workspace-GitHub marketplace testing separately, including the current desktop-only effect of bundling portable `mcp.json`.
+
 ## [0.7.0] - 2026-09-13
 
 - Added the Attenza overview skill so hosts know when to use durable `decide` / `clarify` versus chat, and that `inform` is unavailable until in-product notify policy exists.
@@ -55,7 +60,8 @@
 - Added focused Cursor integration instructions.
 - Recorded GrokBot as the next planned public integration.
 
-[Unreleased]: https://github.com/maxhillaert/attenza-integrations/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/maxhillaert/attenza-integrations/compare/v0.7.1...HEAD
+[0.7.1]: https://github.com/maxhillaert/attenza-integrations/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/maxhillaert/attenza-integrations/compare/v0.4.0...v0.5.0
